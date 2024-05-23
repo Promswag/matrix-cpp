@@ -37,15 +37,11 @@ class Vector : public std::vector<K> {
 		}
 
 		Vector<K> add(Vector<K> other) {
-			auto result = operator+(other);
-			std::size_t len = std::max(this->size(), other.size());
-			for (std::size_t i = 0; i < len; i++) {
-				if (i < this->size())
-					(*this)[i] += other[i];
-				else
-					this->push_back(other[i]);
-			}
-			return result;
+			if (other.size() > this->size())
+				this->resize(other.size());
+			for (std::size_t i = 0; i < other.size(); i++)
+				(*this)[i] += other[i];
+			return *this;
 		}
 		
 		Vector<K> operator-(Vector<K> other) {
@@ -59,12 +55,27 @@ class Vector : public std::vector<K> {
 			return vec; 
 		}
 
+		Vector<K> sub(Vector<K> other) {
+			if (other.size() > this->size())
+				this->resize(other.size());
+			for (std::size_t i = 0; i < other.size(); i++)
+				(*this)[i] -= other[i];
+			return *this;
+		}
+
 		Vector<K> operator*(K k) {
 			Vector<K> vec(*this);
 			for (std::size_t i = 0; i < vec.size(); i++) {
 				vec[i] *= k;
 			}
 			return vec; 
+		}		
+		
+		Vector<K> mul(K k) {
+			for (std::size_t i = 0; i < this->size(); i++) {
+				(*this)[i] *= k;
+			}
+			return *this; 
 		}
 
 	private:
