@@ -1,42 +1,35 @@
 #include <iostream>
+#include <sstream>
 #include <vector>
-#include <array>
 
 template<typename K>
 class Vector : public std::vector<K> {
 	public:
+		Vector() : std::vector<K>() {}
+		Vector(std::size_t size) : std::vector<K>(size) {}
 		Vector(const Vector& other) : std::vector<K>(other) {}
 
-		// template<std::size_t N>
-		// static Vector<K> from(const std::array<K, N>& array) {
-		// 	Vector<K> vec(N);
-		// 	for (std::size_t i = 0; i < N; i++) {
-		// 		vec[i] = array[i];
-		// 	}
-		// 	return vec;
-		// }
-
 		template<std::size_t N>
-		static Vector<K> from(const K (&array)[N]) {
-			Vector<K> vec(N);
+		static auto from(const K (&array)[N]) {
+			Vector<K> vector(N);
 			for (std::size_t i = 0; i < N; i++) {
-				vec[i] = array[i];
+				vector[i] = array[i];
 			}
-			return vec;
+			return vector;
 		}
 
-		Vector<K> operator+(Vector<K> other) {
-			std::size_t len = std::max(this->size(), other.size());
-			Vector<K> vec(len);
+		auto operator+(Vector<K> other) {
+			auto len = std::max(this->size(), other.size());
+			Vector<K> vector(len);
 			for (std::size_t i = 0; i < len; i++) {
-				vec[i] =
+				vector[i] =
 					(i < this->size() ? (*this)[i] : K()) + 
 					(i < other.size() ? other[i] : K());
 			}
-			return vec; 
+			return vector; 
 		}
 
-		Vector<K> add(Vector<K> other) {
+		auto add(Vector<K> other) {
 			if (other.size() > this->size())
 				this->resize(other.size());
 			for (std::size_t i = 0; i < other.size(); i++)
@@ -44,18 +37,18 @@ class Vector : public std::vector<K> {
 			return *this;
 		}
 		
-		Vector<K> operator-(Vector<K> other) {
-			std::size_t len = std::max(this->size(), other.size());
-			Vector<K> vec(len);
+		auto operator-(Vector<K> other) {
+			auto len = std::max(this->size(), other.size());
+			Vector<K> vector(len);
 			for (std::size_t i = 0; i < len; i++) {
-				vec[i] =
+				vector[i] =
 					(i < this->size() ? (*this)[i] : K()) - 
 					(i < other.size() ? other[i] : K());
 			}
-			return vec; 
+			return vector; 
 		}
 
-		Vector<K> sub(Vector<K> other) {
+		auto sub(Vector<K> other) {
 			if (other.size() > this->size())
 				this->resize(other.size());
 			for (std::size_t i = 0; i < other.size(); i++)
@@ -63,32 +56,42 @@ class Vector : public std::vector<K> {
 			return *this;
 		}
 
-		Vector<K> operator*(K k) {
-			Vector<K> vec(*this);
-			for (std::size_t i = 0; i < vec.size(); i++) {
-				vec[i] *= k;
+		auto operator*(K k) {
+			Vector<K> vector(*this);
+			for (std::size_t i = 0; i < vector.size(); i++) {
+				vector[i] *= k;
 			}
-			return vec; 
+			return vector; 
 		}		
 		
-		Vector<K> mul(K k) {
+		auto mul(K k) {
 			for (std::size_t i = 0; i < this->size(); i++) {
 				(*this)[i] *= k;
 			}
 			return *this; 
 		}
+		
+		auto asString() const {
+			std::stringstream os;
+			os << "[";
+			for (std::size_t i = 0; i < this->size(); i++) {
+				os << ((*this)[i] < 0 ? "": " ") << (*this)[i] << (i != this->size() - 1 ? "," : "");
+			}
+			os << "]";
+			return os.str();
+		}
 
 	private:
-		Vector() : std::vector<K>() {}
-		Vector(std::size_t size) : std::vector<K>(size) {}
+
 };
 
 template<typename K>
-std::ostream& operator<<(std::ostream& os, const Vector<K>& vec) {
-	os << "Vector: {";
-	for (std::size_t i = 0; i < vec.size(); i++) {
-		os << vec[i] << (i != vec.size() - 1 ? ", " : ""); 
+auto& operator<<(std::ostream& os, const Vector<K>& vector) {
+	os << "Vector of size " << vector.size() << " ";
+	os << "[";
+	for (std::size_t i = 0; i < vector.size(); i++) {
+		os << (vector[i] < 0 ? "": " ") << vector[i] << (i != vector.size() - 1 ? "," : ""); 
 	}
-	os << "}";
+	os << "]";
 	return os;
 };
