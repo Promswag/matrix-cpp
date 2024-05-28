@@ -8,8 +8,8 @@
 
 class VectorException : public std::exception {
 	public:
-		VectorException(char *msg) {
-			message = "VectorException: " + std::string(msg);
+		VectorException(std::string msg) {
+			message = "VectorException: " + msg;
 		}
 		const char *what () {
 			return message.c_str();
