@@ -57,7 +57,7 @@ int main() {
 		PRINT(WHITE, M);
 	}
 	{
-		auto M = Matrix<float>::from({{0, -1, 2}, {-3, 4, -5}});
+		auto M = Matrix<float>::from({{0.7, -1, 2}, {-3, 4, -5}});
 		PRINT(GREEN, "M");
 		PRINT(WHITE, M);
 		auto N = Matrix<float>::from({{0, -1, 2}, {-3, 4, -5}});
@@ -97,19 +97,166 @@ int main() {
 		ENDL;
 
 		auto C = linear_combination({A, B}, {5, 10});
-		PRINT(GREEN, "LINEAR COMBINATION {A, B} {5, 10}");
+		PRINT(GREEN, "LINEAR COMBINATION ({A, B}, {5, 10})");
 		PRINT(WHITE, C);
 		ENDL;
 	}
 	{
 		auto A = Vector<int>::from({10, 0, -10});
 		auto B = Vector<int>::from({5, -1, 10});
+		auto C = A.dot(B);
+		PRINT(GREEN, "DOT PRODUCT A.dot(B)");
+		PRINT(WHITE, C);
 		try {
-			auto C = A.dot(B);
-			PRINT(GREEN, "DOT PRODUCT A.dot(B)");
-			PRINT(WHITE, C);
+			A.dot(Vector<int>::from({10, 0}));
 		} catch(VectorException &e) {
 			PRINT(RED, e.what());
+		}
+	}
+	{
+		auto A = lerp(0., 1., 0.5);
+		PRINT(GREEN, "LINEAR INTERPOLATION (0, 1, 0.5)");
+		PRINT(WHITE, A);
+	}
+	{
+		auto A = Vector<float>::from({-10, -5, 0});
+		auto B = Vector<float>::from({-50, -60, -70});
+		auto C = lerp(A, B, 0.4);
+		PRINT(GREEN, "LINEAR INTERPOLATION ({-10, -10, -10}, {-50, -50, -50}, 0.5)");
+		PRINT(WHITE, C);
+	}
+	{
+		auto A = Vector<float>::from({10, 0, -10});
+		auto B = Vector<float>::from({5, -1, 10});
+		auto C = lerp(A, B, 0.5);
+		PRINT(GREEN, "LINEAR INTERPOLATION ({10, 0, -10}, {5, -1, 10}, 0.5)");
+		PRINT(WHITE, C);
+	}
+	{
+		auto A = Matrix<float>::from({{0, 20, 40}, {60, 80, 100}});
+		auto B = Matrix<float>::from({{100, 80, 60}, {40, 20, 0}});
+		auto C = lerp(A, B, 0.1);
+		PRINT(GREEN, A);
+		PRINT(GREEN, B);
+		PRINT(WHITE, C);
+	}
+	{
+		auto A = Vector<int>::from({10, 0, -10});
+		PRINT(GREEN, "norm_1");
+		PRINT(WHITE, A.norm_1());
+	}
+	{
+		auto A = Vector<int>::from({-1, -2});
+		PRINT(GREEN, "norm");
+		PRINT(WHITE, A.norm());
+	}
+	{
+		auto A = Vector<int>::from({10, 0, -100, 37, -1});
+		PRINT(GREEN, "norm_inf");
+		PRINT(WHITE, A.norm_inf());
+	}
+	{
+		auto A = Vector<int>::from({0, 0});
+		auto B = Vector<int>::from({0, 0});
+		PRINT(GREEN, "angle_cos(A, B)");
+		PRINT(WHITE, angle_cos(A, B));
+	}
+	{
+		auto A = Vector<float>::from({1., 2., 3.});
+		auto B = Vector<float>::from({4., 5., 6.});
+		PRINT(GREEN, "angle_cos(A, B)");
+		PRINT(WHITE, angle_cos(A, B));
+	}
+	{
+		auto A = Vector<float>::from({4., 2., -3.});
+		auto B = Vector<float>::from({-2., -5., 16.});
+		PRINT(GREEN, "cross_product(A, B)");
+		PRINT(WHITE, cross_product(A, B));
+	}
+	{
+		auto u = Matrix<float>::from({{1., 0.}, {0., 1.}});
+		auto v = Vector<float>::from({4., 2.});
+		PRINT(GREEN, "u.mul_vec(v)");
+		PRINT(WHITE, u.mul_vec(v));
+	}
+	{
+		auto u = Matrix<float>::from({{2., 0.}, {0., 2.}});
+		auto v = Vector<float>::from({4., 2.});
+		PRINT(GREEN, "u.mul_vec(v)");
+		PRINT(WHITE, u.mul_vec(v));
+	}
+	{
+		auto u = Matrix<float>::from({{2., -2.}, {-2., 2.}});
+		auto v = Vector<float>::from({4., 2.});
+		PRINT(GREEN, "u.mul_vec(v)");
+		PRINT(WHITE, u.mul_vec(v));
+	}
+	{
+		try {
+			auto u = Matrix<float>::from({{1., 0.}, {0., 1.}});
+			auto v = Vector<float>::from({4., 2., 100., 500., 1000., 0., 0.});
+			PRINT(GREEN, "u.mul_vec(v)");
+			PRINT(WHITE, u.mul_vec(v));
+		} catch (VectorException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	{
+		try {
+			auto u = Matrix<float>::from({{1., 0.}, {-1., -3.}, {2., 1.}});
+			auto v = Vector<float>::from({2., 1., 0.,});
+			PRINT(GREEN, "u.mul_vec(v)");
+			PRINT(WHITE, u.mul_vec(v));
+		} catch (VectorException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	{
+		try {
+			auto u = Matrix<float>::from({{0., -4,}, {4., -3.}, {-2., 0.}});
+			auto v = Matrix<float>::from({{0., 1., 2.}, {1., -1, 3.}});
+			auto x = u.mul_mat(v);
+			PRINT(GREEN, "u.mul_mat(v)");
+			PRINT(WHITE, x);
+		} catch (VectorException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	{
+		try {
+			auto u = Matrix<float>::from({{0., 4, -2,}, {-4., -3., 0}});
+			auto v = Matrix<float>::from({{0., 1.}, {1., -1}, {2., 3.}});
+			auto x = u.mul_mat(v);
+			PRINT(GREEN, "u.mul_mat(v)");
+			PRINT(WHITE, x);
+		} catch (VectorException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	{
+		try {
+			auto u = Matrix<float>::from({{3., -5.}, {6., 8.}});
+			auto v = Matrix<float>::from({{2., 1.}, {4., 2.}});
+			auto x = u.mul_mat(v);
+			PRINT(GREEN, "u.mul_mat(v)");
+			PRINT(RED, u);
+			PRINT(RED, v);
+			PRINT(WHITE, x);
+		} catch (VectorException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	{
+		try {
+			auto u = Matrix<float>::from({{3., 6.}, {-5., 8.}});
+			auto v = Matrix<float>::from({{2., 4.}, {1., 2.}});
+			auto x = u.mul_mat(v);
+			PRINT(GREEN, "u.mul_mat(v)");
+			PRINT(RED, u);
+			PRINT(RED, v);
+			PRINT(WHITE, x);
+		} catch (VectorException &e) {
+			std::cout << e.what() << std::endl;
 		}
 	}
 }
