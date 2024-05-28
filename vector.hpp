@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <cmath>
 
 class VectorException : public std::exception {
 	public:
@@ -65,6 +66,28 @@ class Vector : public std::vector<K> {
 				result += (*this)[i] * other[i];
 			}
 			return result;
+		}
+		float norm_1() {
+			float r = 0;
+			for (std::size_t i = 0; i < this->size(); i++) {
+				r += ((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
+			}
+			return r;
+		}
+		float norm() {
+			float r = 0;
+			for (std::size_t i = 0; i < this->size(); i++) {
+				r += (*this)[i] * (*this)[i];
+			}
+			return sqrt(r);
+		}
+		float norm_inf() {
+			float r = 0;
+			for (std::size_t i = 0; i < this->size(); i++) {
+				K c((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
+				r = r < c ? c : r;
+			}
+			return r;
 		}
 
 		auto operator+(Vector<K> other) const {
