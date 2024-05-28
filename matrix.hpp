@@ -20,11 +20,11 @@ class Matrix {
 
 		template<std::size_t N, std::size_t M>
 		static auto from(const K (&array)[N][M]) {
-			Vector<Vector<K>> matrix(M);
-			for (std::size_t i = 0; i < M; i++) {
-				Vector<K> vector(N);
-				for (std::size_t j = 0; j < N; j++) {
-					vector[j] = array[j][i];
+			Vector<Vector<K>> matrix(N);
+			for (std::size_t i = 0; i < N; i++) {
+				Vector<K> vector(M);
+				for (std::size_t j = 0; j < M; j++) {
+					vector[j] = array[i][j];
 				}
 				matrix[i] = vector;
 			}
@@ -58,6 +58,26 @@ class Matrix {
 				}
 			}
 			return *this;
+		}
+		auto mul_vec(Vector<K> v) {
+			Vector<K> result(this->size());
+			for (std::size_t i = 0; i < this->size(); i++) {
+				result[i] = v.dot((*this)[i]);
+			}
+			return result;
+		}
+		auto mul_mat(Matrix<K> m) {
+			Vector<Vector<K>> result(this->size(), Vector<K>(m[0].size()));
+			for (std::size_t i = 0; i < m[0].size(); i++) {
+				for (std::size_t j = 0; j < this->size(); j++) {
+					for (std::size_t k = 0; k < m.size(); k++) {
+						// std::cout << i << " " << j << " " << k << std::endl;
+						result[j][i] += (*this)[j][k] * m[k][i];
+						// std::cout << result << " += " << (*this)[j][k] << " * " << m[k][i] << std::endl;
+					}
+				}
+			}
+			return Matrix(result);
 		}
 
 		auto operator+(Matrix<K> other) const {
@@ -100,6 +120,17 @@ class Matrix {
 };
 
 template<typename K>
+// auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
+// 	os << "Matrix of shape " << matrix.shape() << std::endl;
+// 	for (std::size_t j = 0; j < matrix[0].size(); j++) {
+// 		os << "[";
+// 		for (std::size_t i = 0; i < matrix.size(); i++) {
+// 			os << matrix[i][j] << (i < matrix.size() - 1 ? "," : "");
+// 		}
+// 		os << "]" << std::endl;
+// 	}
+// 	return os;
+// };
 auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
 	os << "Matrix of shape " << matrix.shape() << std::endl;
 	for (std::size_t i = 0; i < matrix.size(); i++) {
@@ -107,5 +138,4 @@ auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
 	}
 	return os;
 };
-
 #endif

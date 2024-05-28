@@ -25,6 +25,7 @@ class Vector : public std::vector<K> {
 	public:
 		Vector() : std::vector<K>() {}
 		Vector(std::size_t size) : std::vector<K>(size) {}
+		Vector(std::size_t size, K v) : std::vector<K>(size, v) {}
 		Vector(const Vector& other) : std::vector<K>(other) {}
 
 		template<std::size_t N>
@@ -113,7 +114,7 @@ class Vector : public std::vector<K> {
 			std::stringstream os;
 			os << "[";
 			for (std::size_t i = 0; i < this->size(); i++) {
-				os << ((*this)[i] < 0 ? "": " ") << (*this)[i] << (i != this->size() - 1 ? "," : "");
+				os << (*this)[i] << (i != this->size() - 1 ? "," : "");
 			}
 			os << "]";
 			return os.str();
@@ -128,7 +129,7 @@ auto& operator<<(std::ostream& os, const Vector<K>& vector) {
 	os << "Vector of size " << vector.size() << " ";
 	os << "[";
 	for (std::size_t i = 0; i < vector.size(); i++) {
-		os << (vector[i] < 0 ? "": " ") << vector[i] << (i != vector.size() - 1 ? "," : ""); 
+		os << vector[i] << (i != vector.size() - 1 ? "," : ""); 
 	}
 	os << "]";
 	return os;
