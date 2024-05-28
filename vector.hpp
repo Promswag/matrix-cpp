@@ -1,6 +1,23 @@
+#ifndef __VECTOR_HPP__
+# define __VECTOR_HPP__
+
+#include <stdexcept>
 #include <iostream>
 #include <sstream>
 #include <vector>
+
+class VectorException : public std::exception {
+	public:
+		VectorException(char *msg) {
+			message = "VectorException: " + std::string(msg);
+		}
+		const char *what () {
+			return message.c_str();
+		}
+
+	private:
+		std::string message;
+};
 
 template<typename K>
 class Vector : public std::vector<K> {
@@ -18,36 +35,13 @@ class Vector : public std::vector<K> {
 			return vector;
 		}
 
-		auto operator+(Vector<K> other) {
-			auto len = std::max(this->size(), other.size());
-			Vector<K> vector(len);
-			for (std::size_t i = 0; i < len; i++) {
-				vector[i] =
-					(i < this->size() ? (*this)[i] : K()) + 
-					(i < other.size() ? other[i] : K());
-			}
-			return vector; 
-		}
-
 		auto add(Vector<K> other) {
 			if (other.size() > this->size())
 				this->resize(other.size());
-			for (std::size_t i = 0; i < other.size(); i++)
+			for (std::size_t i = 0; i < this->size(); i++)
 				(*this)[i] += other[i];
 			return *this;
 		}
-		
-		auto operator-(Vector<K> other) {
-			auto len = std::max(this->size(), other.size());
-			Vector<K> vector(len);
-			for (std::size_t i = 0; i < len; i++) {
-				vector[i] =
-					(i < this->size() ? (*this)[i] : K()) - 
-					(i < other.size() ? other[i] : K());
-			}
-			return vector; 
-		}
-
 		auto sub(Vector<K> other) {
 			if (other.size() > this->size())
 				this->resize(other.size());
@@ -55,21 +49,42 @@ class Vector : public std::vector<K> {
 				(*this)[i] -= other[i];
 			return *this;
 		}
-
-		auto operator*(K k) {
-			Vector<K> vector(*this);
-			for (std::size_t i = 0; i < vector.size(); i++) {
-				vector[i] *= k;
-			}
-			return vector; 
-		}		
-		
 		auto mul(K k) {
 			for (std::size_t i = 0; i < this->size(); i++) {
 				(*this)[i] *= k;
 			}
 			return *this; 
 		}
+		auto dot(Vector<K> other) {
+			if (other.size() != this->size()) {
+				throw VectorException("Vectors are of different dimensions.");
+			}
+			auto vector(this->size());
+			K result(0);
+			for (std::size_t i = 0; i < this->size(); i++) {
+				result += (*this)[i] * other[i];
+			}
+			return result;
+		}
+
+		auto operator+(Vector<K> other) const {
+			return Vector(*this).add(other);
+		}
+		auto operator+=(Vector<K> other) {
+			return add(other);
+		}
+		auto operator-(Vector<K> other) const {
+			return Vector(*this).sub(other);
+		}
+		auto operator-=(Vector<K> other) {
+			return sub(other);
+		}
+		auto operator*(K k) const {
+			return Vector(*this).mul(k);
+		}		
+		auto operator*=(K k) {
+			return mul(k);
+		}		
 		
 		auto asString() const {
 			std::stringstream os;
@@ -95,3 +110,5 @@ auto& operator<<(std::ostream& os, const Vector<K>& vector) {
 	os << "]";
 	return os;
 };
+
+#endif

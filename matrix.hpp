@@ -1,3 +1,6 @@
+#ifndef __MATRIX_HPP__
+# define __MATRIX_HPP__
+
 #include "vector.hpp"
 
 template<typename K>
@@ -5,32 +8,14 @@ class Matrix {
 	public:
 		Matrix(const Matrix& other) : 
 			_matrix(other._matrix),
-			_shape(other._shape)
-			{}
+			_shape(other._shape) {
+		}
 		Matrix(const Vector<Vector<K>>& matrix) : _matrix(matrix) {
 			_shape = "(" + std::to_string(matrix.size()) + ", " + std::to_string(matrix[0].size()) + ")";
 		}
-
-		// auto get() const {
-		// 	return _matrix;
-		// }
-		// auto get(std::size_t y, std::size_t x) const {
-		// 	return _matrix[y][x];
-		// }
-		// auto set(std::size_t y, std::size_t x, K value) {
-		// 	_matrix[y][x] = value;
-		// }
-		auto shape() const {
-			return _shape;
-		}
-		bool isSquare() const {
-			return _matrix.size() == _matrix[0].size();
-		}
-		auto operator[](std::size_t n) {
-			return _matrix[n];
-		}
-		auto size() const {
-			return _matrix.size();
+		auto operator=(Matrix<K>& other) {
+			_matrix = other._matrix;
+			_shape = other._shape;
 		}
 
 		template<std::size_t N, std::size_t M>
@@ -46,20 +31,6 @@ class Matrix {
 			return Matrix(matrix);
 		}
 
-		auto operator+(Matrix<K> other) {
-			if (this->shape() != other.shape())
-				return Matrix(*this);
-			auto matrix(*this);
-			for (auto i = 0; i < matrix.size(); i++) {
-				for(auto j = 0; j < matrix[i].size(); j++) {
-					matrix[i][j] += other[i][j];
-				}
-			}
-			return matrix;
-		}
-		auto operator+=(Matrix<K> other) {
-			return add(other);
-		}
 		auto add(Matrix<K> other) {
 			if (this->shape() != other.shape())
 				return Matrix(*this);
@@ -69,20 +40,6 @@ class Matrix {
 				}
 			}
 			return *this;
-		}
-		auto operator-(Matrix<K> other) {
-			if (this->shape() != other.shape())
-				return Matrix(*this);
-			auto matrix(*this);
-			for (auto i = 0; i < matrix.size(); i++) {
-				for(auto j = 0; j < matrix[i].size(); j++) {
-					matrix[i][j] -= other[i][j];
-				}
-			}
-			return matrix;
-		}
-		auto operator-=(Matrix<K> other) {
-			return sub(other);
 		}
 		auto sub(Matrix<K> other) {
 			if (this->shape() != other.shape())
@@ -94,18 +51,6 @@ class Matrix {
 			}
 			return *this;
 		}
-		auto operator*(K k) {
-			auto matrix(*this);
-			for (auto i = 0; i < matrix.size(); i++) {
-				for(auto j = 0; j < matrix[i].size(); j++) {
-					matrix[i][j] *= k;
-				}
-			}
-			return matrix; 
-		}		
-		auto operator*=(K k) {
-			return mul(k);
-		}
 		auto mul(K k) {
 			for (auto i = 0; i < this->size(); i++) {
 				for(auto j = 0; j < (*this)[i].size(); j++) {
@@ -113,6 +58,38 @@ class Matrix {
 				}
 			}
 			return *this;
+		}
+
+		auto operator+(Matrix<K> other) const {
+			return Matrix(*this).add(other);
+		}
+		auto operator+=(Matrix<K> other) {
+			return add(other);
+		}
+		auto operator-(Matrix<K> other) const {
+			return Matrix(*this).sub(other);
+		}
+		auto operator-=(Matrix<K> other) {
+			return sub(other);
+		}
+		auto operator*(K k) const {
+			return Matrix(*this).mul(k);
+		}		
+		auto operator*=(K k) {
+			return mul(k);
+		}
+		auto operator[](std::size_t n) {
+			return _matrix[n];
+		}
+
+		auto shape() const {
+			return _shape;
+		}
+		auto size() const {
+			return _matrix.size();
+		}
+		bool isSquare() const {
+			return _matrix.size() == _matrix[0].size();
 		}
 
 	private:
@@ -130,3 +107,5 @@ auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
 	}
 	return os;
 };
+
+#endif
