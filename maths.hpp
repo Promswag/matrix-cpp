@@ -12,7 +12,9 @@ auto linear_combination(const Vector<K> (&vector)[N], const K (&coefs)[N]) {
 	return result;
 }
 
-//LINEAR INTERPOLATION TODO!!!
-
+template<typename K>
+auto lerp(K u, K v, float t) {
+	return K(u + (v - u) * t);
+}
 
 #endif
