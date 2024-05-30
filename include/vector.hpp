@@ -29,6 +29,12 @@ class Vector : public std::vector<K> {
 		Vector(std::size_t size) : std::vector<K>(size) {}
 		Vector(std::size_t size, K v) : std::vector<K>(size, v) {}
 		Vector(const Vector& other) : std::vector<K>(other) {}
+		auto& operator=(const Vector& other) {
+			if (this != &other) {
+				std::vector<K>::operator=(other);
+			}
+			return *this;
+		}
 
 		template<std::size_t N>
 		static auto from(const K (&array)[N]) {
@@ -70,21 +76,21 @@ class Vector : public std::vector<K> {
 			}
 			return result;
 		}
-		float norm_1() {
+		auto norm_1() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
 				r += ((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
 			}
 			return r;
 		}
-		float norm() {
+		auto norm() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
 				r += (*this)[i] * (*this)[i];
 			}
 			return sqrt(r);
 		}
-		float norm_inf() {
+		auto norm_inf() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
 				K c((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
