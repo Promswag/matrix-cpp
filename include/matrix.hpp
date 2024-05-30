@@ -3,6 +3,19 @@
 
 #include "vector.hpp"
 
+class MatrixException : public std::exception {
+	public:
+		MatrixException(std::string msg) {
+			message = "MatrixException: " + msg;
+		}
+		const char *what() const noexcept override {
+			return message.c_str();
+		}
+
+	private:
+		std::string message;
+};
+
 template<typename K>
 class Matrix {
 	public:
@@ -71,13 +84,71 @@ class Matrix {
 			for (std::size_t i = 0; i < m[0].size(); i++) {
 				for (std::size_t j = 0; j < this->size(); j++) {
 					for (std::size_t k = 0; k < m.size(); k++) {
-						// std::cout << i << " " << j << " " << k << std::endl;
 						result[j][i] += (*this)[j][k] * m[k][i];
-						// std::cout << result << " += " << (*this)[j][k] << " * " << m[k][i] << std::endl;
 					}
 				}
 			}
 			return Matrix(result);
+		}
+		auto trace() const {
+			if (!this->isSquare())
+				throw MatrixException("Can not compute the Trace of a non-square matrix.");
+			K result(0);
+			for (std::size_t i = 0; i < this->size(); i++) {
+				result += (*this)[i][i];
+			}
+			return result;
+		}
+		auto transpose() const {
+			Vector<Vector<K>> result((*this)[0].size(), Vector<K>(this->size()));
+			for (std::size_t i = 0; i < this->size(); i++) {
+				for (std::size_t j = 0; j < (*this)[0].size(); j++) {
+					result[j][i] = (*this)[i][j];
+				}
+			}
+			return Matrix(result);
+		}
+		auto row_echelon() const {
+			Matrix result(*this);
+			std::size_t pivot_row = 0;
+			for (std::size_t col = 0; col < result[0].size(); col++) {
+				for (std::size_t row = pivot_row; row < result.size(); row++) {
+					PRINT(RED, "XD");
+					if (result[row][col] != 0) {
+						PRINT(GREEN, "XD");
+						if (row != pivot_row) {
+							PRINT(CYAN, "XD");
+							Vector<K> tmp = result[pivot_row];
+							result[pivot_row] = result[row];
+							result[row] = tmp;
+							result[pivot_row] = result[pivot_row] * (1 / result[pivot_row][col]);
+							PRINT(CYAN, "OUT");
+						}
+						for (std::size_t inner = 0; inner < result[0].size(); inner++) {
+							PRINT(CYAN, std::to_string(inner));
+							if (inner == pivot_row) {
+								continue;
+							}
+							PRINT(GREEN, result[inner]);
+							PRINT(GREEN, result[pivot_row]);
+							PRINT(GREEN, result[inner][col]);
+							PRINT(GREEN, result[pivot_row][col]);
+							PRINT(GREEN, (result[inner][col] / result[pivot_row][col]));
+							auto v = result[pivot_row] * (result[inner][col] / result[pivot_row][col]);
+							PRINT(GREEN, v);
+							auto g = result[inner] - v;
+							PRINT(GREEN, g);
+							result[inner] = g;	
+							PRINT(CYAN, std::to_string(inner + 10));
+						}
+						pivot_row++;
+						break;
+						PRINT(RED, "LOOPEND");
+					}
+				}
+			}
+			
+			return result;
 		}
 
 		auto operator+(Matrix<K> other) const {
@@ -98,7 +169,10 @@ class Matrix {
 		auto operator*=(K k) {
 			return mul(k);
 		}
-		auto operator[](std::size_t n) {
+		auto &operator[](std::size_t n) {
+			return _matrix[n];
+		}
+		auto operator[](std::size_t n) const {
 			return _matrix[n];
 		}
 
@@ -134,7 +208,9 @@ template<typename K>
 auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
 	os << "Matrix of shape " << matrix.shape() << std::endl;
 	for (std::size_t i = 0; i < matrix.size(); i++) {
-		os << matrix[i].asString() << std::endl;
+		os << matrix[i].asString();
+		if (i < matrix.size() - 1)
+			os << '\n';
 	}
 	return os;
 };

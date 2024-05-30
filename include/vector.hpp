@@ -7,12 +7,14 @@
 #include <vector>
 #include <cmath>
 
+#include "print.hpp"
+
 class VectorException : public std::exception {
 	public:
 		VectorException(std::string msg) {
 			message = "VectorException: " + msg;
 		}
-		const char *what () {
+		const char *what() const noexcept override {
 			return message.c_str();
 		}
 
@@ -61,7 +63,7 @@ class Vector : public std::vector<K> {
 			if (other.size() != this->size()) {
 				throw VectorException("Vectors are of different dimensions.");
 			}
-			auto vector(this->size());
+			// auto vector(this->size());
 			K result(0);
 			for (std::size_t i = 0; i < this->size(); i++) {
 				result += (*this)[i] * other[i];

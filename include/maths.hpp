@@ -1,7 +1,7 @@
 #ifndef __MATHS_HPP__
 # define __MATHS_HPP__
 
-#include "Vector.hpp"
+#include "vector.hpp"
 
 template<typename K, std::size_t N>
 auto linear_combination(const Vector<K> (&vector)[N], const K (&coefs)[N]) {

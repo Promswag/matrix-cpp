@@ -259,4 +259,39 @@ int main() {
 			std::cout << e.what() << std::endl;
 		}
 	}
+	{
+		try {
+			auto u = Matrix<float>::from({{3., 6.}, {-5., 8.}});
+			PRINT(GREEN, "u.trace()");
+			PRINT(RED, u.trace());
+		} catch (MatrixException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	{
+		try {
+			auto u = Matrix<float>::from({{3., 6., 5.}, {-5., 8., 2.}});
+			PRINT(GREEN, "u.trace()");
+			PRINT(RED, u.trace());
+		} catch (MatrixException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	{
+		//TRANSPOSE
+		auto u = Matrix<float>::from({{3., 6., 5.}, {-5., 8., 2.}});
+		PRINT(GREEN, u);
+		auto v = u.transpose();
+		PRINT(RED, v);
+	}
+	{
+		try {
+			auto u = Matrix<float>::from({{3., 6., 5.}, {-5., 8., 2.}});
+			PRINT(GREEN, "u.row_echelon()");
+			auto v = u.row_echelon();
+			PRINT(RED, v);
+		} catch (MatrixException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
 }
