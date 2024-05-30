@@ -47,8 +47,8 @@ class Matrix {
 		auto add(Matrix<K> other) {
 			if (this->shape() != other.shape())
 				return Matrix(*this);
-			for (auto i = 0; i < _matrix.size(); i++) {
-				for(auto j = 0; j < _matrix[i].size(); j++) {
+			for (std::size_t i = 0; i < _matrix.size(); i++) {
+				for(std::size_t j = 0; j < _matrix[i].size(); j++) {
 					_matrix[i][j] += other[i][j];
 				}
 			}
@@ -57,16 +57,16 @@ class Matrix {
 		auto sub(Matrix<K> other) {
 			if (this->shape() != other.shape())
 				return Matrix(*this);
-			for (auto i = 0; i < _matrix.size(); i++) {
-				for(auto j = 0; j < _matrix[i].size(); j++) {
+			for (std::size_t i = 0; i < _matrix.size(); i++) {
+				for(std::size_t j = 0; j < _matrix[i].size(); j++) {
 					_matrix[i][j] -= other[i][j];
 				}
 			}
 			return *this;
 		}
 		auto mul(K k) {
-			for (auto i = 0; i < this->size(); i++) {
-				for(auto j = 0; j < (*this)[i].size(); j++) {
+			for (std::size_t i = 0; i < this->size(); i++) {
+				for(std::size_t j = 0; j < (*this)[i].size(); j++) {
 					_matrix[i][j] *= k;
 				}
 			}
@@ -113,37 +113,23 @@ class Matrix {
 			std::size_t pivot_row = 0;
 			for (std::size_t col = 0; col < result[0].size(); col++) {
 				for (std::size_t row = pivot_row; row < result.size(); row++) {
-					PRINT(RED, "XD");
 					if (result[row][col] != 0) {
-						PRINT(GREEN, "XD");
 						if (row != pivot_row) {
-							PRINT(CYAN, "XD");
 							Vector<K> tmp = result[pivot_row];
 							result[pivot_row] = result[row];
 							result[row] = tmp;
-							result[pivot_row] = result[pivot_row] * (1 / result[pivot_row][col]);
-							PRINT(CYAN, "OUT");
 						}
-						for (std::size_t inner = 0; inner < result[0].size(); inner++) {
-							PRINT(CYAN, std::to_string(inner));
+						result[pivot_row] = result[pivot_row] * (1 / result[pivot_row][col]);
+						for (std::size_t inner = 0; inner < result.size(); inner++) {
 							if (inner == pivot_row) {
 								continue;
 							}
-							PRINT(GREEN, result[inner]);
-							PRINT(GREEN, result[pivot_row]);
-							PRINT(GREEN, result[inner][col]);
-							PRINT(GREEN, result[pivot_row][col]);
-							PRINT(GREEN, (result[inner][col] / result[pivot_row][col]));
 							auto v = result[pivot_row] * (result[inner][col] / result[pivot_row][col]);
-							PRINT(GREEN, v);
 							auto g = result[inner] - v;
-							PRINT(GREEN, g);
 							result[inner] = g;	
-							PRINT(CYAN, std::to_string(inner + 10));
 						}
 						pivot_row++;
 						break;
-						PRINT(RED, "LOOPEND");
 					}
 				}
 			}
