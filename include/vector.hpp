@@ -69,7 +69,6 @@ class Vector : public std::vector<K> {
 			if (other.size() != this->size()) {
 				throw VectorException("Vectors are of different dimensions.");
 			}
-			// auto vector(this->size());
 			K result(0);
 			for (std::size_t i = 0; i < this->size(); i++) {
 				result += (*this)[i] * other[i];
@@ -129,7 +128,6 @@ class Vector : public std::vector<K> {
 		}
 
 	private:
-
 };
 
 template<typename K>

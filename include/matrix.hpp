@@ -124,16 +124,13 @@ class Matrix {
 							if (inner == pivot_row) {
 								continue;
 							}
-							auto v = result[pivot_row] * (result[inner][col] / result[pivot_row][col]);
-							auto g = result[inner] - v;
-							result[inner] = g;	
+							result[inner] -= result[pivot_row] * (result[inner][col] / result[pivot_row][col]);	
 						}
 						pivot_row++;
 						break;
 					}
 				}
 			}
-			
 			return result;
 		}
 
