@@ -286,7 +286,11 @@ int main() {
 	}
 	{
 		try {
-			auto u = Matrix<float>::from({{3., 6., 5.}, {-5., 8., 2.}});
+			auto u = Matrix<float>::from({
+				{1., 2., 3., 4., 5.}, 
+				{-5., -4., -3., -2., -1.}, 
+				{1., 2., 3., 4., 5.},
+				{10., 8., 6., 4., 2.}});
 			PRINT(GREEN, "u.row_echelon()");
 			auto v = u.row_echelon();
 			PRINT(RED, v);
