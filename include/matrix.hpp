@@ -133,6 +133,41 @@ class Matrix {
 			}
 			return result;
 		}
+		auto determinant() const {
+			if (!this->isSquare()) {
+				throw MatrixException("Determinant: Matrix need to be square");
+			}
+			K result(0);
+			if (this->size() == 2) {
+				return (*this)[0][0] * (*this)[1][1] - (*this)[1][0] * (*this)[0][1];
+			} else {
+				int sign = 1;
+				for (std::size_t row = 0; row < this->size(); row++) {
+					for (std::size_t col = 0; col < this->size(); col++) {
+						Matrix m(Vector<Vector<K>>(this->size() - 1, Vector<K>(this->size() - 1)));
+						std::size_t output_row = 0;
+						for (std::size_t input_row = 0; input_row < this->size(); input_row++) {
+							if (input_row == row) {
+								continue;
+							}
+							std::size_t output_col = 0;
+							for (std::size_t input_col = 0; input_col < this->size(); input_col++) {
+								if (input_col == col) {
+									continue;
+								}
+								K k = (*this)[input_row][input_col];
+								m[output_row][output_col] = k;
+								output_col++;
+							}
+							output_row++;
+						}
+						result += m.determinant() * (*this)[0][col] * sign;
+						sign = -sign;
+					}
+				}
+			}
+			return result;
+		}
 
 		auto operator+(Matrix<K> other) const {
 			return Matrix(*this).add(other);
