@@ -191,8 +191,6 @@ class Matrix {
 						result[pivot_row] = result[pivot_row] * (1 / origin[pivot_row][col]);
 						origin[pivot_row] = origin[pivot_row] * (1 / origin[pivot_row][col]);
 						for (std::size_t inner = 0; inner < origin.size(); inner++) {
-							// PRINT(RED, origin);
-							// PRINT(GREEN, result);
 							if (inner == pivot_row) {
 								continue;
 							}
