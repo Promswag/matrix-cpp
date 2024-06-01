@@ -127,12 +127,43 @@ class Matrix {
 							result[pivot_row] = result[row];
 							result[row] = tmp;
 						}
+						for (std::size_t inner = pivot_row + 1; inner < result.size(); inner++) {
+							if (result[inner][col] < result[pivot_row][col]) {
+								result[inner] -= result[pivot_row] * (result[inner][col] / result[pivot_row][col]);
+							}
+							else {
+								result[inner] -= (result[pivot_row] * result[inner][col]) * (1 / result[pivot_row][col]);
+							}
+						}
+						pivot_row++;
+						break;
+					}
+				}
+			}
+			return result;
+		}
+		auto rref() const {
+			Matrix result(*this);
+			std::size_t pivot_row = 0;
+			for (std::size_t col = 0; col < result[0].size(); col++) {
+				for (std::size_t row = pivot_row; row < result.size(); row++) {
+					if (result[row][col] != 0) {
+						if (row != pivot_row) {
+							Vector<K> tmp = result[pivot_row];
+							result[pivot_row] = result[row];
+							result[row] = tmp;
+						}
 						result[pivot_row] = result[pivot_row] * (1 / result[pivot_row][col]);
 						for (std::size_t inner = 0; inner < result.size(); inner++) {
 							if (inner == pivot_row) {
 								continue;
 							}
-							result[inner] -= result[pivot_row] * (result[inner][col] / result[pivot_row][col]);	
+							if (result[inner][col] < result[pivot_row][col]) {
+								result[inner] -= result[pivot_row] * (result[inner][col] / result[pivot_row][col]);
+							}
+							else {
+								result[inner] -= (result[pivot_row] * result[inner][col]) * (1 / result[pivot_row][col]);
+							}
 						}
 						pivot_row++;
 						break;
@@ -194,8 +225,16 @@ class Matrix {
 							if (inner == pivot_row) {
 								continue;
 							}
-							result[inner] -= result[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);	
-							origin[inner] -= origin[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);	
+							// if (origin[inner][col] < origin[pivot_row][col]) {
+								// result[inner] -= result[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);	
+								// origin[inner] -= origin[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);
+							// }
+							// else {
+								// result[inner] -= result[pivot_row] * (origin[inner][col] * (1 / origin[pivot_row][col]));	
+								// origin[inner] -= origin[pivot_row] * (origin[inner][col] * (1 / origin[pivot_row][col]));
+							// }
+							result[inner] -= result[pivot_row] * origin[inner][col] * (1 / origin[pivot_row][col]);	
+							origin[inner] -= origin[pivot_row] * origin[inner][col] * (1 / origin[pivot_row][col]);	
 						}
 						pivot_row++;
 						break;
@@ -203,6 +242,31 @@ class Matrix {
 				}
 			}
 			return result;
+		}
+		auto rank() const {
+			Matrix result(*this);
+			std::size_t pivot_row = 0;
+			for (std::size_t col = 0; col < result[0].size(); col++) {
+				for (std::size_t row = pivot_row; row < result.size(); row++) {
+					if (result[row][col] != 0) {
+						if (row != pivot_row) {
+							Vector<K> tmp = result[pivot_row];
+							result[pivot_row] = result[row];
+							result[row] = tmp;
+						}
+						result[pivot_row] = result[pivot_row] * (1 / result[pivot_row][col]);
+						for (std::size_t inner = 0; inner < result.size(); inner++) {
+							if (inner == pivot_row) {
+								continue;
+							}
+							result[inner] -= result[pivot_row] * (result[inner][col] / result[pivot_row][col]);	
+						}
+						pivot_row++;
+						break;
+					}
+				}
+			}
+			return pivot_row;
 		}
 
 		auto operator+(Matrix<K> other) const {
@@ -224,10 +288,16 @@ class Matrix {
 			return mul(k);
 		}
 		auto &operator[](std::size_t n) {
-			return _matrix[n];
+			if (n < this->size())
+				return _matrix[n];
+			else
+				throw MatrixException("Index out of bounds");
 		}
 		auto operator[](std::size_t n) const {
-			return _matrix[n];
+			if (n < this->size())
+				return _matrix[n];
+			else
+				throw MatrixException("Index out of bounds");
 		}
 
 		auto shape() const {
@@ -248,21 +318,49 @@ class Matrix {
 };
 
 template<typename K>
-// auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
-// 	os << "Matrix of shape " << matrix.shape() << std::endl;
-// 	for (std::size_t j = 0; j < matrix[0].size(); j++) {
-// 		os << "[";
-// 		for (std::size_t i = 0; i < matrix.size(); i++) {
-// 			os << matrix[i][j] << (i < matrix.size() - 1 ? "," : "");
-// 		}
-// 		os << "]" << std::endl;
-// 	}
-// 	return os;
-// };
+std::string trail(K k) {
+	K num = std::round(k * 1000) / 1000;
+	if (num == 0)
+		num = 0;
+	std::string n = std::to_string(num);
+	while (*--(n.end()) == '0')
+		n.pop_back();
+	if (*--(n.end()) == '.')
+		n.pop_back();
+	std::size_t offset = 0;
+	if (n.front() == '-')
+		offset = 1;
+	while (n.size() > 5 + offset)
+		n.pop_back();
+	return n;
+}
+
+template<typename K>
 auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
+	std::size_t length = 0;
+	for (std::size_t i = 0; i < matrix.size(); i++) {
+		for (std::size_t j = 0; j < matrix[0].size(); j++) {
+			std::string n = trail(matrix[i][j]);
+			if (n.length() > length)
+				length = n.length();
+		}
+	}
 	os << "Matrix of shape " << matrix.shape() << std::endl;
 	for (std::size_t i = 0; i < matrix.size(); i++) {
-		os << matrix[i].asString();
+		os << '[';
+		for (std::size_t j = 0; j < matrix[0].size(); j++) {
+			float number = std::round(matrix[i][j] * 1000) / 1000;
+			if (number == 0)
+				number = 0;
+			std::string n = trail(number);
+			std::size_t d = length - n.length();
+			while (d--)
+				os << " ";
+			os << number;
+			if (j < matrix[0].size() - 1)
+				os << ",";
+		}
+		os << ']';
 		if (i < matrix.size() - 1)
 			os << '\n';
 	}

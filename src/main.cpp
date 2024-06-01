@@ -72,7 +72,7 @@ int main() {
 	// 	PRINT(WHITE, O);
 
 	// 	auto X = O * 5;
-	// 	PRINT(GREEN, "X = O * 5");
+	// 	PRINT(GREEN, "X = O * 5");5
 	// 	PRINT(WHITE, X);
 	// 	PRINT(GREEN, "O");
 	// 	PRINT(WHITE, O);
@@ -278,7 +278,7 @@ int main() {
 	// 	}
 	// }
 	// {
-	// 	//TRANSPOSE
+	// 	// TRANSPOSE
 	// 	auto u = Matrix<float>::from({{3., 6., 5.}, {-5., 8., 2.}});
 	// 	PRINT(GREEN, u);
 	// 	auto v = u.transpose();
@@ -294,6 +294,7 @@ int main() {
 	// 		PRINT(GREEN, "u.row_echelon()");
 	// 		auto v = u.row_echelon();
 	// 		PRINT(RED, v);
+	// 		PRINT(YELLOW, v.rank());
 	// 	} catch (MatrixException &e) {
 	// 		std::cout << e.what() << std::endl;
 	// 	}
@@ -366,27 +367,27 @@ int main() {
 	// 		std::cout << e.what() << std::endl;
 	// 	}
 	// }
-	// {
-	// 	try {
-	// 		auto u = Matrix<float>::from({
-	// 			{1., 2., 3., 4., 4.}, 
-	// 			{0., 2., 3., 13., 5.}, 
-	// 			{7., 0., 20., 4., 5.},
-	// 			{0., 0., 0., 4., 5.},
-	// 			{0., 0., 9., 0., 5.}});
-	// 		PRINT(GREEN, "u.inverse()");
-	// 		auto v = u.inverse();
-	// 		PRINT(RED, v);
-	// 		auto w = Matrix<float>::identity(v.size());
+	{
+		try {
+			auto u = Matrix<float>::from({
+				{1., 2., 3., 4., 4.}, 
+				{0., 2., 3., 13., 5.}, 
+				{7., 0., 20., 4., 5.},
+				{0., 0., 0., 4., 5.},
+				{0., 0., 9., 0., 5.}});
+			PRINT(GREEN, "u.inverse()");
+			auto v = u.inverse();
+			PRINT(RED, v);
+			auto w = Matrix<float>::identity(v.size());
 			
-	// 		auto U = u.mul_mat(v);
-	// 		PRINT(GREEN, U);
-	// 		auto V = v.mul_mat(u);
-	// 		PRINT(GREEN, V);
-	// 	} catch (MatrixException &e) {
-	// 		std::cout << e.what() << std::endl;
-	// 	}
-	// }
+			auto U = u.mul_mat(v);
+			PRINT(GREEN, U);
+			auto V = v.mul_mat(u);
+			PRINT(GREEN, V);
+		} catch (MatrixException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
 	{
 		try {
 			auto matrix = Matrix<float>::from({
@@ -418,6 +419,18 @@ int main() {
 			ENDL;
 			
 		} catch (MatrixException &e) {
+			std::cout << e.what() << std::endl;
+		}
+	}
+	{
+		try {
+			auto matrix = Matrix<float>::from({
+				{1., 2., -1.,}, 
+				{-2., 0., 1.,}, 
+				{1., -1., 0.,}});
+			PRINT(RED, matrix);
+			PRINT(RED, "Rank of the matrix : " + std::to_string(matrix.rank()));
+		} catch (std::exception &e) {
 			std::cout << e.what() << std::endl;
 		}
 	}

@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <vector>
 #include <cmath>
@@ -115,6 +116,18 @@ class Vector : public std::vector<K> {
 		}		
 		auto operator*=(K k) {
 			return mul(k);
+		}
+		auto &operator[](std::size_t n) {
+			if (n < this->size())
+				return *(this->_M_impl._M_start + n);
+			else
+				throw VectorException("Index out of bounds");
+		}
+		auto operator[](std::size_t n) const {
+			if (n < this->size())
+				return *(this->_M_impl._M_start + n);
+			else
+				throw VectorException("Index out of bounds");
 		}		
 		
 		auto asString() const {
