@@ -43,6 +43,14 @@ class Matrix {
 			}
 			return Matrix(matrix);
 		}
+		
+		static auto identity(std::size_t N) {
+			Vector<Vector<K>> matrix(N, Vector<K>(N, K(0)));
+			for (std::size_t i = 0; i < matrix.size(); i++) {
+				matrix[i][i] = 1;
+			}
+			return Matrix(matrix);
+		}
 
 		auto add(Matrix<K> other) {
 			if (this->shape() != other.shape())
@@ -135,7 +143,7 @@ class Matrix {
 		}
 		auto determinant() const {
 			if (!this->isSquare()) {
-				throw MatrixException("Determinant: Matrix need to be square");
+				throw MatrixException("Determinant: Matrix is not square");
 			}
 			K result(0);
 			if (this->size() == 2) {
@@ -157,6 +165,43 @@ class Matrix {
 						}
 					}
 					result += m.determinant() * (*this)[0][col] * (col % 2 ? -1 : 1);
+				}
+			}
+			return result;
+		}
+		auto inverse() const {
+			if (!this->isSquare()) {
+				throw MatrixException("Inverse: Matrix is not square");
+			}
+			Matrix origin(*this);
+			Matrix result = Matrix::identity(this->size());
+			std::size_t pivot_row = 0;
+			for (std::size_t col = 0; col < origin[0].size(); col++) {
+				for (std::size_t row = pivot_row; row < origin.size(); row++) {
+					if (origin[row][col] != 0) {
+						if (row != pivot_row) {
+							Vector<K> tmp = origin[pivot_row];
+							origin[pivot_row] = origin[row];
+							origin[row] = tmp;
+							
+							tmp = result[pivot_row];
+							result[pivot_row] = result[row];
+							result[row] = tmp;
+						}
+						result[pivot_row] = result[pivot_row] * (1 / origin[pivot_row][col]);
+						origin[pivot_row] = origin[pivot_row] * (1 / origin[pivot_row][col]);
+						for (std::size_t inner = 0; inner < origin.size(); inner++) {
+							// PRINT(RED, origin);
+							// PRINT(GREEN, result);
+							if (inner == pivot_row) {
+								continue;
+							}
+							result[inner] -= result[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);	
+							origin[inner] -= origin[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);	
+						}
+						pivot_row++;
+						break;
+					}
 				}
 			}
 			return result;

@@ -298,70 +298,125 @@ int main() {
 	// 		std::cout << e.what() << std::endl;
 	// 	}
 	// }
+	// {
+	// 	try {
+	// 		auto u = Matrix<float>::from({
+	// 			{1, -1}, 
+	// 			{-1, 1}
+	// 			});
+	// 		PRINT(GREEN, "u.determinant()");
+	// 		PRINT(RED, u.determinant());
+	// 	} catch (MatrixException &e) {
+	// 		std::cout << e.what() << std::endl;
+	// 	}
+	// }
+	// {
+	// 	try {
+	// 		auto u = Matrix<float>::from({
+	// 			{2, 0, 0}, 
+	// 			{0, 2, 0}, 
+	// 			{0, 0, 2},
+	// 			});
+	// 		PRINT(GREEN, "u.determinant()");
+	// 		PRINT(RED, u.determinant());
+	// 	} catch (MatrixException &e) {
+	// 		std::cout << e.what() << std::endl;
+	// 	}
+	// }
+	// {
+	// 	try {
+	// 		auto u = Matrix<float>::from({
+	// 			{8, 5, -2}, 
+	// 			{4, 7, 20}, 
+	// 			{7, 6, 1},
+	// 			});
+	// 		PRINT(GREEN, "u.determinant()");
+	// 		PRINT(RED, u.determinant());
+	// 	} catch (MatrixException &e) {
+	// 		std::cout << e.what() << std::endl;
+	// 	}
+	// }
+	// {
+	// 	try {
+	// 		auto u = Matrix<float>::from({
+	// 			{8, 5, -2, 4}, 
+	// 			{4, 2.5, 20, 4}, 
+	// 			{8, 5, 1, 4},
+	// 			{28, -4, 17, 1},
+	// 			});
+	// 		PRINT(GREEN, "u.determinant()");
+	// 		PRINT(RED, u.determinant());
+	// 	} catch (MatrixException &e) {
+	// 		std::cout << e.what() << std::endl;
+	// 	}
+	// }
+	// {
+	// 	try {
+	// 		auto u = Matrix<float>::from({
+	// 			{3.2, 1.7, -0.5, 2.1, 4.8, 0.9,},
+	// 			{-2.4, 5.6, 0.3, 1.1, -1.8, 3.7,},
+	// 			{4.5, -1.2, 2.9, 0.7, 3.1, -0.4,},
+	// 			{-3.6, 2.5, -1.9, 4.2, 1.5, 2.8,},
+	// 			{0.6, -4.1, 3.4, -2.7, 1.3, 5.2,},
+	// 			{-1.8, 3.9, -2.2, 4.6, -3.5, 1.6,}, 
+	// 			});
+	// 		PRINT(GREEN, "u.determinant()");
+	// 		PRINT(RED, u.determinant());
+	// 	} catch (MatrixException &e) {
+	// 		std::cout << e.what() << std::endl;
+	// 	}
+	// }
+	// {
+	// 	try {
+	// 		auto u = Matrix<float>::from({
+	// 			{1., 2., 3., 4., 4.}, 
+	// 			{0., 2., 3., 13., 5.}, 
+	// 			{7., 0., 20., 4., 5.},
+	// 			{0., 0., 0., 4., 5.},
+	// 			{0., 0., 9., 0., 5.}});
+	// 		PRINT(GREEN, "u.inverse()");
+	// 		auto v = u.inverse();
+	// 		PRINT(RED, v);
+	// 		auto w = Matrix<float>::identity(v.size());
+			
+	// 		auto U = u.mul_mat(v);
+	// 		PRINT(GREEN, U);
+	// 		auto V = v.mul_mat(u);
+	// 		PRINT(GREEN, V);
+	// 	} catch (MatrixException &e) {
+	// 		std::cout << e.what() << std::endl;
+	// 	}
+	// }
 	{
 		try {
-			auto u = Matrix<float>::from({
-				{1, -1}, 
-				{-1, 1}
-				});
-			PRINT(GREEN, "u.determinant()");
-			PRINT(RED, u.determinant());
-		} catch (MatrixException &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-	{
-		try {
-			auto u = Matrix<float>::from({
-				{2, 0, 0}, 
-				{0, 2, 0}, 
-				{0, 0, 2},
-				});
-			PRINT(GREEN, "u.determinant()");
-			PRINT(RED, u.determinant());
-		} catch (MatrixException &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-	{
-		try {
-			auto u = Matrix<float>::from({
-				{8, 5, -2}, 
-				{4, 7, 20}, 
-				{7, 6, 1},
-				});
-			PRINT(GREEN, "u.determinant()");
-			PRINT(RED, u.determinant());
-		} catch (MatrixException &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-	{
-		try {
-			auto u = Matrix<float>::from({
-				{8, 5, -2, 4}, 
-				{4, 2.5, 20, 4}, 
-				{8, 5, 1, 4},
-				{28, -4, 17, 1},
-				});
-			PRINT(GREEN, "u.determinant()");
-			PRINT(RED, u.determinant());
-		} catch (MatrixException &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-	{
-		try {
-			auto u = Matrix<float>::from({
-				{3.2, 1.7, -0.5, 2.1, 4.8, 0.9,},
-				{-2.4, 5.6, 0.3, 1.1, -1.8, 3.7,},
-				{4.5, -1.2, 2.9, 0.7, 3.1, -0.4,},
-				{-3.6, 2.5, -1.9, 4.2, 1.5, 2.8,},
-				{0.6, -4.1, 3.4, -2.7, 1.3, 5.2,},
-				{-1.8, 3.9, -2.2, 4.6, -3.5, 1.6,}, 
-				});
-			PRINT(GREEN, "u.determinant()");
-			PRINT(RED, u.determinant());
+			auto matrix = Matrix<float>::from({
+				{1., 2., -1.,}, 
+				{-2., 0., 1.,}, 
+				{1., -1., 0.,}});
+			PRINT(GREEN, "MATRIX");
+			PRINT(GREEN, matrix);
+			ENDL;
+			
+			auto inverse = matrix.inverse();
+			PRINT(RED, "MATRIX INVERSE");
+			PRINT(RED, inverse);
+			ENDL;
+			
+			auto identity = Matrix<float>::identity(matrix.size());
+			PRINT(YELLOW, "IDENTITY MATRIX");
+			PRINT(YELLOW, identity);
+			ENDL;
+			
+			auto mxr = matrix.mul_mat(inverse);
+			PRINT(GREEN, "MATRIX * INVERSE");
+			PRINT(GREEN, mxr);
+			ENDL;
+			
+			auto rxm = inverse.mul_mat(matrix);
+			PRINT(RED, "INVERSE * MATRIX");
+			PRINT(RED, rxm);
+			ENDL;
+			
 		} catch (MatrixException &e) {
 			std::cout << e.what() << std::endl;
 		}
