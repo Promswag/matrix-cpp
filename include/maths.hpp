@@ -36,13 +36,13 @@ auto cross_product(Vector<K> u, Vector<K> v) {
 }
 
 Matrix<float> projection(float fov, float ratio, float near, float end) {
-	// float fd = 2 * tan(fov / 2 * near);
-	float tanFov = tan(fov * 0.5);
+	const float PI = 3.14159265359;
+	float tanFov = tan(fov * (PI/180) * 0.5);
 	return Matrix<float>::from({
 		{1 / (tanFov * ratio), 0., 0., 0.,},
 		{0., 1 / tanFov, 0., 0.,},
 		{0., 0., (end + near) / (end - near), -1.,},
-		{0., 0., (2* end * near) / (end - near), 0.,},
+		{0., 0., 2 * end * near / (end - near), 0.,},
 	});
 }
 

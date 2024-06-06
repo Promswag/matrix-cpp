@@ -434,8 +434,9 @@ int main() {
 	// 		std::cout << e.what() << std::endl;
 	// 	}
 	// }
+
 	{
-		Matrix<float> proj = projection(45.0, 16.0/9.0, 0.1, 100.0);
+		Matrix<float> proj = projection(90, 16.0/9.0, 0.1, 100.0);
 		proj.print();
 		// PRINT(RED, proj);
 	}
