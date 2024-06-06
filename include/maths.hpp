@@ -2,6 +2,8 @@
 # define __MATHS_HPP__
 
 #include "vector.hpp"
+#include "matrix.hpp"
+#include <cmath>
 
 template<typename K, std::size_t N>
 auto linear_combination(const Vector<K> (&vector)[N], const K (&coefs)[N]) {
@@ -33,5 +35,15 @@ auto cross_product(Vector<K> u, Vector<K> v) {
 	return result;
 }
 
+Matrix<float> projection(float fov, float ratio, float near, float end) {
+	// float fd = 2 * tan(fov / 2 * near);
+	float tanFov = tan(fov * 0.5);
+	return Matrix<float>::from({
+		{1 / (tanFov * ratio), 0., 0., 0.,},
+		{0., 1 / tanFov, 0., 0.,},
+		{0., 0., (end + near) / (end - near), -1.,},
+		{0., 0., (2* end * near) / (end - near), 0.,},
+	});
+}
 
 #endif

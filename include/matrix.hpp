@@ -309,6 +309,14 @@ class Matrix {
 		bool isSquare() const {
 			return _matrix.size() == _matrix[0].size();
 		}
+		void print() const {
+			for (std::size_t i = 0; i < this->size(); i++) {
+				for (std::size_t j = 0; j < (*this)[0].size(); j++) {
+					std::cout << (*this)[i][j] << (j < (*this)[0].size() - 1 ? ", " : "");
+				}
+				std::cout << std::endl;
+			}
+		}
 
 	private:
 		Matrix() {}

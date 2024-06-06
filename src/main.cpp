@@ -367,71 +367,76 @@ int main() {
 	// 		std::cout << e.what() << std::endl;
 	// 	}
 	// }
+	// {
+	// 	try {
+	// 		auto u = Matrix<float>::from({
+	// 			{1., 2., 3., 4., 4.}, 
+	// 			{0., 2., 3., 13., 5.}, 
+	// 			{7., 0., 20., 4., 5.},
+	// 			{0., 0., 0., 4., 5.},
+	// 			{0., 0., 9., 0., 5.}});
+	// 		PRINT(GREEN, "u.inverse()");
+	// 		auto v = u.inverse();
+	// 		PRINT(RED, v);
+	// 		auto w = Matrix<float>::identity(v.size());
+			
+	// 		auto U = u.mul_mat(v);
+	// 		PRINT(GREEN, U);
+	// 		auto V = v.mul_mat(u);
+	// 		PRINT(GREEN, V);
+	// 	} catch (MatrixException &e) {
+	// 		std::cout << e.what() << std::endl;
+	// 	}
+	// }
+	// {
+	// 	try {
+	// 		auto matrix = Matrix<float>::from({
+	// 			{1., 2., -1.,}, 
+	// 			{-2., 0., 1.,}, 
+	// 			{1., -1., 0.,}});
+	// 		PRINT(GREEN, "MATRIX");
+	// 		PRINT(GREEN, matrix);
+	// 		ENDL;
+			
+	// 		auto inverse = matrix.inverse();
+	// 		PRINT(RED, "MATRIX INVERSE");
+	// 		PRINT(RED, inverse);
+	// 		ENDL;
+			
+	// 		auto identity = Matrix<float>::identity(matrix.size());
+	// 		PRINT(YELLOW, "IDENTITY MATRIX");
+	// 		PRINT(YELLOW, identity);
+	// 		ENDL;
+			
+	// 		auto mxr = matrix.mul_mat(inverse);
+	// 		PRINT(GREEN, "MATRIX * INVERSE");
+	// 		PRINT(GREEN, mxr);
+	// 		ENDL;
+			
+	// 		auto rxm = inverse.mul_mat(matrix);
+	// 		PRINT(RED, "INVERSE * MATRIX");
+	// 		PRINT(RED, rxm);
+	// 		ENDL;
+			
+	// 	} catch (MatrixException &e) {
+	// 		std::cout << e.what() << std::endl;
+	// 	}
+	// }
+	// {
+	// 	try {
+	// 		auto matrix = Matrix<float>::from({
+	// 			{1., 2., -1.,}, 
+	// 			{-2., 0., 1.,}, 
+	// 			{1., -1., 0.,}});
+	// 		PRINT(RED, matrix);
+	// 		PRINT(RED, "Rank of the matrix : " + std::to_string(matrix.rank()));
+	// 	} catch (std::exception &e) {
+	// 		std::cout << e.what() << std::endl;
+	// 	}
+	// }
 	{
-		try {
-			auto u = Matrix<float>::from({
-				{1., 2., 3., 4., 4.}, 
-				{0., 2., 3., 13., 5.}, 
-				{7., 0., 20., 4., 5.},
-				{0., 0., 0., 4., 5.},
-				{0., 0., 9., 0., 5.}});
-			PRINT(GREEN, "u.inverse()");
-			auto v = u.inverse();
-			PRINT(RED, v);
-			auto w = Matrix<float>::identity(v.size());
-			
-			auto U = u.mul_mat(v);
-			PRINT(GREEN, U);
-			auto V = v.mul_mat(u);
-			PRINT(GREEN, V);
-		} catch (MatrixException &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-	{
-		try {
-			auto matrix = Matrix<float>::from({
-				{1., 2., -1.,}, 
-				{-2., 0., 1.,}, 
-				{1., -1., 0.,}});
-			PRINT(GREEN, "MATRIX");
-			PRINT(GREEN, matrix);
-			ENDL;
-			
-			auto inverse = matrix.inverse();
-			PRINT(RED, "MATRIX INVERSE");
-			PRINT(RED, inverse);
-			ENDL;
-			
-			auto identity = Matrix<float>::identity(matrix.size());
-			PRINT(YELLOW, "IDENTITY MATRIX");
-			PRINT(YELLOW, identity);
-			ENDL;
-			
-			auto mxr = matrix.mul_mat(inverse);
-			PRINT(GREEN, "MATRIX * INVERSE");
-			PRINT(GREEN, mxr);
-			ENDL;
-			
-			auto rxm = inverse.mul_mat(matrix);
-			PRINT(RED, "INVERSE * MATRIX");
-			PRINT(RED, rxm);
-			ENDL;
-			
-		} catch (MatrixException &e) {
-			std::cout << e.what() << std::endl;
-		}
-	}
-	{
-		try {
-			auto matrix = Matrix<float>::from({
-				{1., 2., -1.,}, 
-				{-2., 0., 1.,}, 
-				{1., -1., 0.,}});
-			PRINT(RED, matrix);
-			PRINT(RED, "Rank of the matrix : " + std::to_string(matrix.rank()));
-		} catch (std::exception &e) {
-			std::cout << e.what() << std::endl;
-		}
+		Matrix<float> proj = projection(45.0, 16.0/9.0, 0.1, 100.0);
+		proj.print();
+		// PRINT(RED, proj);
 	}
 }
