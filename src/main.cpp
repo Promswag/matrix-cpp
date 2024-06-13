@@ -1,6 +1,7 @@
 #include "matrix.hpp"
 #include "print.hpp"
 #include "maths.hpp"
+#include <fstream>
 
 int main() {
 	// {
@@ -436,8 +437,12 @@ int main() {
 	// }
 
 	{
-		Matrix<float> proj = projection(90, 16.0/9.0, 0.1, 100.0);
-		proj.print();
-		// PRINT(RED, proj);
+		Matrix<float> proj = projection(45., 1.2, 0.1, 100.00);
+		std::ofstream proj_file;
+		proj_file.open("matrix_display/proj");
+		proj_file << proj.asString();
+		proj_file.close();
+		std::cout << proj.asString();
+		// proj.print();
 	}
 }

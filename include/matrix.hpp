@@ -317,6 +317,17 @@ class Matrix {
 				std::cout << std::endl;
 			}
 		}
+		std::string asString() const {
+			std::string result = "";
+			for (std::size_t i = 0; i < this->size(); i++) {
+				for (std::size_t j = 0; j < (*this)[0].size(); j++) {
+					result += std::to_string((*this)[i][j]);
+					result += j < (*this)[0].size() - 1 ? ", " : "";
+				}
+				result += "\n";
+			}
+			return result;
+		}
 
 	private:
 		Matrix() {}
