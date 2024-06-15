@@ -2,41 +2,100 @@
 #include "print.hpp"
 #include "maths.hpp"
 #include <fstream>
+#include <complex>
+#include <chrono>
 
 int main() {
+	
+	// auto start = std::chrono::system_clock::now();
 	// {
-	// 	auto A = Vector<int>::from({1, 2, 3});
-	// 	PRINT(GREEN, "A");
-	// 	PRINT(WHITE, A);
-	// 	ENDL;
-
-	// 	auto B = Vector<int>::from({-1, 2, 0});
-	// 	PRINT(GREEN, "B");
-	// 	PRINT(WHITE, B);
-	// 	ENDL;
-
-	// 	PRINT(GREEN, "A + B");
-	// 	PRINT(WHITE, A + B);
-	// 	ENDL;
-
-	// 	PRINT(GREEN, "A - B");
-	// 	PRINT(WHITE, A - B);
-	// 	ENDL;
-
-	// 	PRINT(GREEN, "A * 2");
-	// 	PRINT(WHITE, A * 2);
-	// 	ENDL;
-
-	// 	auto C = A.add(B);
-	// 	PRINT(GREEN, "C = A.add(B)");
-	// 	PRINT(WHITE, C);
-	// 	ENDL;
-
-	// 	A.add(C);
-	// 	PRINT(GREEN, "A.add(C)");
-	// 	PRINT(WHITE, A);
-	// 	ENDL;
+	// 	auto A = Matrix<float>::from({
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 	});
+	// 	auto B = Matrix<float>::from({
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 		{1., 2., 3, 1., 2., 3, 1., 2., 3, 1., 2., 3},
+	// 	});
+	// 	auto C = Matrix<float>::from({
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	// 		});
+	// 	auto AB = A + B;
+	// 	for (int i = 0; i < 1000; i++) {
+	// 		C.add(AB);
+	// 	}
+	// 	std::cout << C << std::endl;
+	// 	// auto G = AB * 500.;
+	// 	// C += G;
+	// 	std::cout << C << std::endl;
 	// }
+	// auto end = std::chrono::system_clock::now();
+	// std::cout << std::chrono::duration<double>(end - start).count() * 1000000 << "ns" << std::endl;
+	
+	{
+		auto A = Vector<int>::from({1, 2, 3});
+		PRINT(GREEN, "A");
+		PRINT(WHITE, A);
+		ENDL;
+
+		auto B = Vector<int>::from({-1, 2, 0});
+		PRINT(GREEN, "B");
+		PRINT(WHITE, B);
+		ENDL;
+
+		PRINT(GREEN, "A + B");
+		PRINT(WHITE, A + B);
+		ENDL;
+
+		PRINT(GREEN, "A - B");
+		PRINT(WHITE, A - B);
+		ENDL;
+
+		PRINT(GREEN, "A * 2");
+		PRINT(WHITE, A * 2);
+		ENDL;
+
+		auto C = A.add(B);
+		PRINT(GREEN, "C = A.add(B)");
+		PRINT(WHITE, C);
+		ENDL;
+
+		A.add(C);
+		PRINT(GREEN, "A.add(C)");
+		PRINT(WHITE, A);
+		ENDL;
+	}
 	// {
 	// 	auto M = Matrix<float>::from({{0, 1}, {1, 0}});
 	// 	PRINT(GREEN, (M.isSquare() ? "Square" : "Non-square"));
@@ -436,13 +495,29 @@ int main() {
 	// 	}
 	// }
 
-	{
-		Matrix<float> proj = projection(45., 1.2, 0.1, 100.00);
-		std::ofstream proj_file;
-		proj_file.open("matrix_display/proj");
-		proj_file << proj.asString();
-		proj_file.close();
-		std::cout << proj.asString();
-		// proj.print();
-	}
+	// {
+	// 	Matrix<float> proj = projection(90., 1., 0.1, 100.00);
+	// 	std::ofstream proj_file;
+	// 	proj_file.open("matrix_display/proj");
+	// 	proj_file << proj.asString();
+	// 	proj_file.close();
+	// 	std::cout << proj.asString();
+	// }
+	
+	// {
+	// 	auto matrix = Matrix<std::complex<double>>::from({
+	// 		{std::complex<double>(0., 1.), std::complex<double>(1., 1.)},
+	// 		{std::complex<double>(0., 1.), std::complex<double>(1., 1.)},
+	// 	});
+	// 	matrix *= std::complex<double>(0, 1);
+	// 	matrix *= -1;
+	// 	matrix.print();
+	// }
+	// {
+	// 	auto matrix = Matrix<char>::from({{"a"[0], "b"[0]}, {"c"[0], "d"[0]}});
+	// 	matrix.print();
+		
+	// 	char a = "a"[0];
+	// 	std::cout << (char)(a + 1) << std::endl;
+	// }
 }

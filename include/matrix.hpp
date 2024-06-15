@@ -2,6 +2,7 @@
 # define __MATRIX_HPP__
 
 #include "vector.hpp"
+#include <complex>
 
 class MatrixException : public std::exception {
 	public:
@@ -16,7 +17,7 @@ class MatrixException : public std::exception {
 		std::string message;
 };
 
-template<typename K>
+template<typename K, typename = std::enable_if_t<std::is_arithmetic<K>::value || std::is_same<K, std::complex<double>>::value>>
 class Matrix {
 	public:
 		Matrix(const Matrix& other) : 
@@ -52,9 +53,9 @@ class Matrix {
 			return Matrix(matrix);
 		}
 
-		auto add(Matrix<K> other) {
-			if (this->shape() != other.shape())
-				return Matrix(*this);
+		auto & add(Matrix<K> & other) {
+			// if (this->shape() != other.shape())
+			// 	return *this;
 			for (std::size_t i = 0; i < _matrix.size(); i++) {
 				for(std::size_t j = 0; j < _matrix[i].size(); j++) {
 					_matrix[i][j] += other[i][j];
@@ -62,7 +63,7 @@ class Matrix {
 			}
 			return *this;
 		}
-		auto sub(Matrix<K> other) {
+		auto & sub(Matrix<K> & other) {
 			if (this->shape() != other.shape())
 				return Matrix(*this);
 			for (std::size_t i = 0; i < _matrix.size(); i++) {
@@ -72,7 +73,7 @@ class Matrix {
 			}
 			return *this;
 		}
-		auto mul(K k) {
+		auto & scl(K & k) {
 			for (std::size_t i = 0; i < this->size(); i++) {
 				for(std::size_t j = 0; j < (*this)[i].size(); j++) {
 					_matrix[i][j] *= k;
@@ -80,14 +81,14 @@ class Matrix {
 			}
 			return *this;
 		}
-		auto mul_vec(Vector<K> v) {
+		auto mul_vec(Vector<K> & v) {
 			Vector<K> result(this->size());
 			for (std::size_t i = 0; i < this->size(); i++) {
 				result[i] = v.dot((*this)[i]);
 			}
 			return result;
 		}
-		auto mul_mat(Matrix<K> m) {
+		auto mul_mat(Matrix<K> & m) {
 			Vector<Vector<K>> result(this->size(), Vector<K>(m[0].size()));
 			for (std::size_t i = 0; i < m[0].size(); i++) {
 				for (std::size_t j = 0; j < this->size(); j++) {
@@ -269,23 +270,23 @@ class Matrix {
 			return pivot_row;
 		}
 
-		auto operator+(Matrix<K> other) const {
+		auto operator+(Matrix<K> & other) const {
 			return Matrix(*this).add(other);
 		}
-		auto operator+=(Matrix<K> other) {
+		auto & operator+=(Matrix<K> & other) {
 			return add(other);
 		}
-		auto operator-(Matrix<K> other) const {
+		auto operator-(Matrix<K> & other) const {
 			return Matrix(*this).sub(other);
 		}
-		auto operator-=(Matrix<K> other) {
+		auto & operator-=(Matrix<K> & other) {
 			return sub(other);
 		}
 		auto operator*(K k) const {
-			return Matrix(*this).mul(k);
+			return Matrix(*this).scl(k);
 		}		
-		auto operator*=(K k) {
-			return mul(k);
+		auto & operator*=(K k) {
+			return scl(k);
 		}
 		auto &operator[](std::size_t n) {
 			if (n < this->size())

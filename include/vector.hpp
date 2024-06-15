@@ -46,21 +46,21 @@ class Vector : public std::vector<K> {
 			return vector;
 		}
 
-		auto add(Vector<K> other) {
+		auto & add(const Vector<K> & other) {
 			if (other.size() > this->size())
 				this->resize(other.size());
 			for (std::size_t i = 0; i < this->size(); i++)
 				(*this)[i] += other[i];
 			return *this;
 		}
-		auto sub(Vector<K> other) {
+		auto & sub(const Vector<K> & other) {
 			if (other.size() > this->size())
 				this->resize(other.size());
 			for (std::size_t i = 0; i < other.size(); i++)
 				(*this)[i] -= other[i];
 			return *this;
 		}
-		auto mul(K k) {
+		auto & scl(K k) {
 			for (std::size_t i = 0; i < this->size(); i++) {
 				(*this)[i] *= k;
 			}
@@ -99,23 +99,35 @@ class Vector : public std::vector<K> {
 			return r;
 		}
 
-		auto operator+(Vector<K> other) const {
+		auto operator+(const Vector<K> & other) const {
 			return Vector(*this).add(other);
 		}
-		auto operator+=(Vector<K> other) {
+		auto operator+(Vector<K> & other) const {
+			return Vector(*this).add(other);
+		}
+		auto & operator+=(const Vector<K> & other) {
 			return add(other);
 		}
-		auto operator-(Vector<K> other) const {
+		auto & operator+=(Vector<K> & other) {
+			return add(other);
+		}
+		auto operator-(const Vector<K> & other) const {
 			return Vector(*this).sub(other);
 		}
-		auto operator-=(Vector<K> other) {
+		auto operator-(Vector<K> & other) const {
+			return Vector(*this).sub(other);
+		}
+		auto & operator-=(const Vector<K> & other) {
+			return sub(other);
+		}
+		auto & operator-=(Vector<K> & other) {
 			return sub(other);
 		}
 		auto operator*(K k) const {
-			return Vector(*this).mul(k);
+			return Vector(*this).scl(k);
 		}		
-		auto operator*=(K k) {
-			return mul(k);
+		auto & operator*=(K k) {
+			return scl(k);
 		}
 		auto &operator[](std::size_t n) {
 			if (n < this->size())

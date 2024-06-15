@@ -1,11 +1,12 @@
-#define BLACK std::string("30")
-#define RED std::string("31")
-#define GREEN std::string("32")
-#define YELLOW std::string("33")
-#define BLUE std::string("34")
-#define MAGENTA std::string("35")
-#define CYAN std::string("36")
-#define WHITE std::string("37")
-#define PRINT(color, text) std::cout << "\033[" + color + "m" << text << "\033[0;m" << std::endl
-#define COLOR(color, text) "\033[" + color + "m" << text << "\033[0;m"
+#define DEFAULT "\033[0;m"
+#define BLACK "\033[30m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define WHITE "\033[37m"
+#define PRINT(color, text) std::cout << color << text << std::endl
+#define COLOR(color, text) color << text
 #define ENDL std::cout << std::endl
