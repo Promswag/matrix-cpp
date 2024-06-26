@@ -20,27 +20,38 @@ class MatrixException : public std::exception {
 template<typename K, typename = std::enable_if_t<std::is_arithmetic<K>::value || std::is_same<K, std::complex<double>>::value>>
 class Matrix {
 	public:
-		Matrix(const Matrix& other) : 
+		Matrix(const Matrix & other) : 
 			_matrix(other._matrix),
 			_shape(other._shape) {
 		}
-		Matrix(const Vector<Vector<K>>& matrix) : _matrix(matrix) {
+		Matrix(Vector<Vector<K>> & matrix) : _matrix(matrix) {
 			_shape = "(" + std::to_string(matrix.size()) + ", " + std::to_string(matrix[0].size()) + ")";
 		}
-		auto operator=(Matrix<K>& other) {
+		auto operator=(Matrix<K> & other) {
 			_matrix = other._matrix;
 			_shape = other._shape;
 		}
 
+		// template<std::size_t N, std::size_t M>
+		// static auto from(const K (&array)[N][M]) {
+		// 	Vector<Vector<K>> matrix(N);
+		// 	for (std::size_t i = 0; i < N; i++) {
+		// 		Vector<K> vector(M);
+		// 		for (std::size_t j = 0; j < M; j++) {
+		// 			vector[j] = array[i][j];
+		// 		}
+		// 		matrix[i] = vector;
+		// 	}
+		// 	return Matrix(matrix);
+		// }		
+		
 		template<std::size_t N, std::size_t M>
 		static auto from(const K (&array)[N][M]) {
-			Vector<Vector<K>> matrix(N);
+			Vector<Vector<K>> matrix(N, Vector<K>(M, K(0)));
 			for (std::size_t i = 0; i < N; i++) {
-				Vector<K> vector(M);
 				for (std::size_t j = 0; j < M; j++) {
-					vector[j] = array[i][j];
+					matrix[i][j] = array[i][j];
 				}
-				matrix[i] = vector;
 			}
 			return Matrix(matrix);
 		}
@@ -54,8 +65,9 @@ class Matrix {
 		}
 
 		auto & add(Matrix<K> & other) {
-			// if (this->shape() != other.shape())
-			// 	return *this;
+			if (this->shape() != other.shape()) {
+				throw MatrixException("add: Matrices should be of the same shape.");
+			}
 			for (std::size_t i = 0; i < _matrix.size(); i++) {
 				for(std::size_t j = 0; j < _matrix[i].size(); j++) {
 					_matrix[i][j] += other[i][j];
@@ -64,8 +76,9 @@ class Matrix {
 			return *this;
 		}
 		auto & sub(Matrix<K> & other) {
-			if (this->shape() != other.shape())
-				return Matrix(*this);
+			if (this->shape() != other.shape()) {
+				throw MatrixException("sub: Matrices should be of the same shape.");
+			}
 			for (std::size_t i = 0; i < _matrix.size(); i++) {
 				for(std::size_t j = 0; j < _matrix[i].size(); j++) {
 					_matrix[i][j] -= other[i][j];
@@ -73,7 +86,7 @@ class Matrix {
 			}
 			return *this;
 		}
-		auto & scl(K & k) {
+		auto & scl(K k) {
 			for (std::size_t i = 0; i < this->size(); i++) {
 				for(std::size_t j = 0; j < (*this)[i].size(); j++) {
 					_matrix[i][j] *= k;
@@ -386,4 +399,20 @@ auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
 	}
 	return os;
 };
+
+// auto& operator<<(std::ostream& os, Matrix<char>& matrix) {
+// 	os << "Matrix of shape " << matrix.shape() << std::endl;
+// 	for (std::size_t i = 0; i < matrix.size(); i++) {
+// 		os << '[';
+// 		for (std::size_t j = 0; j < matrix[0].size(); j++) {
+// 			os << matrix[i][j];
+// 			if (j < matrix[0].size() - 1)
+// 				os << ",";
+// 		}
+// 		os << ']';
+// 		if (i < matrix.size() - 1)
+// 			os << '\n';
+// 	}
+// 	return os;
+// };
 #endif

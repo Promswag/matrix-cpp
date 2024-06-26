@@ -46,14 +46,14 @@ class Vector : public std::vector<K> {
 			return vector;
 		}
 
-		auto & add(const Vector<K> & other) {
+		auto & add(Vector<K> & other) {
 			if (other.size() > this->size())
 				this->resize(other.size());
 			for (std::size_t i = 0; i < this->size(); i++)
 				(*this)[i] += other[i];
 			return *this;
 		}
-		auto & sub(const Vector<K> & other) {
+		auto & sub(Vector<K> & other) {
 			if (other.size() > this->size())
 				this->resize(other.size());
 			for (std::size_t i = 0; i < other.size(); i++)
@@ -66,7 +66,7 @@ class Vector : public std::vector<K> {
 			}
 			return *this; 
 		}
-		auto dot(Vector<K> other) {
+		auto dot(Vector<K> & other) {
 			if (other.size() != this->size()) {
 				throw VectorException("Vectors are of different dimensions.");
 			}
@@ -99,26 +99,14 @@ class Vector : public std::vector<K> {
 			return r;
 		}
 
-		auto operator+(const Vector<K> & other) const {
-			return Vector(*this).add(other);
-		}
 		auto operator+(Vector<K> & other) const {
 			return Vector(*this).add(other);
-		}
-		auto & operator+=(const Vector<K> & other) {
-			return add(other);
 		}
 		auto & operator+=(Vector<K> & other) {
 			return add(other);
 		}
-		auto operator-(const Vector<K> & other) const {
-			return Vector(*this).sub(other);
-		}
 		auto operator-(Vector<K> & other) const {
 			return Vector(*this).sub(other);
-		}
-		auto & operator-=(const Vector<K> & other) {
-			return sub(other);
 		}
 		auto & operator-=(Vector<K> & other) {
 			return sub(other);
