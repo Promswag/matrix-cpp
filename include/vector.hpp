@@ -170,11 +170,22 @@ class Vector : public std::vector<K> {
 };
 
 template<typename K>
+auto& operator<<(std::ostream& os, Vector<K>& vector) {
+	os << "Vector of size " << vector.size() << " ";
+	os << "[";
+	for (std::size_t i = 0; i < vector.size(); i++) {
+		os << vector[i] << (i != vector.size() - 1 ? ", " : ""); 
+	}
+	os << "]";
+	return os;
+};
+
+template<typename K>
 auto& operator<<(std::ostream& os, const Vector<K>& vector) {
 	os << "Vector of size " << vector.size() << " ";
 	os << "[";
 	for (std::size_t i = 0; i < vector.size(); i++) {
-		os << vector[i] << (i != vector.size() - 1 ? "," : ""); 
+		os << vector[i] << (i != vector.size() - 1 ? ", " : ""); 
 	}
 	os << "]";
 	return os;
