@@ -89,17 +89,4 @@ int main() {
 		}
 		std::cout << std::endl;
 	}
-	// {
-	// 	// TEST 06
-	// 	std::cout << GREEN << "#### Test 06 ####" << std::endl;
-	// 	try {
-	// 		auto u = Matrix<char>::from({{'1', '2'}, {'3', '4'}});
-	// 		std::cout << CYAN << "u: " << DEFAULT << u << std::endl;
-	// 		std::cout << CYAN << "Operation: u.scl(2.)" << std::endl;
-	// 		std::cout << CYAN << "u: " << DEFAULT << u.scl('1') << std::endl;
-	// 	} catch (const std::exception &e) {
-	// 		std::cout << RED << e.what() << std::endl;
-	// 	}
-	// 	std::cout << std::endl;
-	// }
 }

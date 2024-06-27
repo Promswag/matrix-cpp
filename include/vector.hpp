@@ -53,7 +53,21 @@ class Vector : public std::vector<K> {
 				(*this)[i] += other[i];
 			return *this;
 		}
+		auto & add(const Vector<K> & other) {
+			if (other.size() > this->size())
+				this->resize(other.size());
+			for (std::size_t i = 0; i < this->size(); i++)
+				(*this)[i] += other[i];
+			return *this;
+		}
 		auto & sub(Vector<K> & other) {
+			if (other.size() > this->size())
+				this->resize(other.size());
+			for (std::size_t i = 0; i < other.size(); i++)
+				(*this)[i] -= other[i];
+			return *this;
+		}
+		auto & sub(const Vector<K> & other) {
 			if (other.size() > this->size())
 				this->resize(other.size());
 			for (std::size_t i = 0; i < other.size(); i++)
@@ -102,18 +116,30 @@ class Vector : public std::vector<K> {
 		auto operator+(Vector<K> & other) const {
 			return Vector(*this).add(other);
 		}
+		auto operator+(const Vector<K> & other) const {
+			return Vector(*this).add(other);
+		}
 		auto & operator+=(Vector<K> & other) {
+			return add(other);
+		}
+		auto & operator+=(const Vector<K> & other) {
 			return add(other);
 		}
 		auto operator-(Vector<K> & other) const {
 			return Vector(*this).sub(other);
 		}
+		auto operator-(const Vector<K> & other) const {
+			return Vector(*this).sub(other);
+		}
 		auto & operator-=(Vector<K> & other) {
+			return sub(other);
+		}
+		auto & operator-=(const Vector<K> & other) {
 			return sub(other);
 		}
 		auto operator*(K k) const {
 			return Vector(*this).scl(k);
-		}		
+		}
 		auto & operator*=(K k) {
 			return scl(k);
 		}
@@ -128,7 +154,7 @@ class Vector : public std::vector<K> {
 				return *(this->_M_impl._M_start + n);
 			else
 				throw VectorException("Index out of bounds");
-		}		
+		}
 		
 		auto asString() const {
 			std::stringstream os;
