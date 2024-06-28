@@ -16,7 +16,10 @@ auto linear_combination(const Vector<K> (&vector)[N], const K (&coefs)[N]) {
 
 template<typename K>
 auto lerp(K u, K v, float t) {
-	return K(u + (v - u) * t);
+	K k(v - u);
+	k *= t;
+	k += u;
+	return k;
 }
 
 template<typename K>

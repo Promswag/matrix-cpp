@@ -24,9 +24,16 @@ class Matrix {
 			_matrix(other._matrix),
 			_shape(other._shape) {
 		}
-		Matrix(Vector<Vector<K>> & matrix) : _matrix(matrix) {
+		// Matrix(Matrix & other) : 
+		// 	_matrix(other._matrix),
+		// 	_shape(other._shape) {
+		// }
+		Matrix(const Vector<Vector<K>> & matrix) : _matrix(matrix) {
 			_shape = "(" + std::to_string(matrix.size()) + ", " + std::to_string(matrix[0].size()) + ")";
 		}
+		// Matrix(Vector<Vector<K>> & matrix) : _matrix(matrix) {
+		// 	_shape = "(" + std::to_string(matrix.size()) + ", " + std::to_string(matrix[0].size()) + ")";
+		// }
 		auto operator=(Matrix<K> & other) {
 			_matrix = other._matrix;
 			_shape = other._shape;
@@ -214,7 +221,10 @@ class Matrix {
 			}
 			K result(0);
 			if (this->size() == 2) {
-				return (*this)[0][0] * (*this)[1][1] - (*this)[1][0] * (*this)[0][1];
+				if (this->isNull())
+					return (K(1));
+				else
+					return (*this)[0][0] * (*this)[1][1] - (*this)[1][0] * (*this)[0][1];
 			} else {
 				for (std::size_t col = 0; col < this->size(); col++) {
 					if ((*this)[0][col] == 0) {
@@ -354,10 +364,21 @@ class Matrix {
 		auto size() const {
 			return _matrix.size();
 		}
-		bool isSquare() const {
+		auto isSquare() const {
 			return _matrix.size() == _matrix[0].size();
 		}
-		void print() const {
+		auto isNull() const {
+			K k(0);
+			for (std::size_t i = 0; i < this->size(); i++) {
+				for (std::size_t j = 0; j < (*this)[0].size(); j++) {
+					if ((*this)[i][j] != k)  {
+						return (false);
+					}
+				}
+			}
+			return true;
+		}
+		auto print() const {
 			for (std::size_t i = 0; i < this->size(); i++) {
 				for (std::size_t j = 0; j < (*this)[0].size(); j++) {
 					std::cout << (*this)[i][j] << (j < (*this)[0].size() - 1 ? ", " : "");
@@ -384,94 +405,46 @@ class Matrix {
 		std::string _shape;
 };
 
-template<typename K>
-std::string trail(K k) {
-	K num = std::round(k * 1000) / 1000;
-	if (num == 0)
-		num = 0;
-	std::string n = std::to_string(num);
-	while (*--(n.end()) == '0')
-		n.pop_back();
-	if (*--(n.end()) == '.')
-		n.pop_back();
-	std::size_t offset = 0;
-	if (n.front() == '-')
-		offset = 1;
-	while (n.size() > 5 + offset)
-		n.pop_back();
-	return n;
-}
+// template<typename K>
+// std::string trail(K k) {
+// 	K num = std::round(k * 1000) / 1000;
+// 	if (num == 0)
+// 		num = 0;
+// 	std::string n = std::to_string(num);
+// 	while (*--(n.end()) == '0')
+// 		n.pop_back();
+// 	if (*--(n.end()) == '.')
+// 		n.pop_back();
+// 	std::size_t offset = 0;
+// 	if (n.front() == '-')
+// 		offset = 1;
+// 	while (n.size() > 5 + offset)
+// 		n.pop_back();
+// 	return n;
+// }
 
-template<typename K>
-auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
-	std::size_t length = 0;
-	for (std::size_t i = 0; i < matrix.size(); i++) {
-		for (std::size_t j = 0; j < matrix[0].size(); j++) {
-			std::string n = trail(matrix[i][j]);
-			if (n.length() > length)
-				length = n.length();
-		}
-	}
-	os << "Matrix of shape " << matrix.shape() << std::endl;
-	for (std::size_t i = 0; i < matrix.size(); i++) {
-		os << '[';
-		for (std::size_t j = 0; j < matrix[0].size(); j++) {
-			float number = std::round(matrix[i][j] * 1000) / 1000;
-			if (number == 0)
-				number = 0;
-			std::string n = trail(number);
-			std::size_t d = length - n.length();
-			while (d--)
-				os << " ";
-			os << number;
-			if (j < matrix[0].size() - 1)
-				os << ",";
-		}
-		os << ']';
-		if (i < matrix.size() - 1)
-			os << '\n';
-	}
-	return os;
-};
-
-template<typename K>
-auto& operator<<(std::ostream& os, const Matrix<K>& matrix) {
-	std::size_t length = 0;
-	for (std::size_t i = 0; i < matrix.size(); i++) {
-		for (std::size_t j = 0; j < matrix[0].size(); j++) {
-			std::string n = trail(matrix[i][j]);
-			if (n.length() > length)
-				length = n.length();
-		}
-	}
-	os << "Matrix of shape " << matrix.shape() << std::endl;
-	for (std::size_t i = 0; i < matrix.size(); i++) {
-		os << '[';
-		for (std::size_t j = 0; j < matrix[0].size(); j++) {
-			float number = std::round(matrix[i][j] * 1000) / 1000;
-			if (number == 0)
-				number = 0;
-			std::string n = trail(number);
-			std::size_t d = length - n.length();
-			while (d--)
-				os << " ";
-			os << number;
-			if (j < matrix[0].size() - 1)
-				os << ",";
-		}
-		os << ']';
-		if (i < matrix.size() - 1)
-			os << '\n';
-	}
-	return os;
-};
-
-// auto& operator<<(std::ostream& os, Matrix<char>& matrix) {
+// template<typename K>
+// auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
+// 	std::size_t length = 0;
+// 	for (std::size_t i = 0; i < matrix.size(); i++) {
+// 		for (std::size_t j = 0; j < matrix[0].size(); j++) {
+// 			std::string n = trail(matrix[i][j]);
+// 			if (n.length() > length)
+// 				length = n.length();
+// 		}
+// 	}
 // 	os << "Matrix of shape " << matrix.shape() << std::endl;
 // 	for (std::size_t i = 0; i < matrix.size(); i++) {
 // 		os << '[';
 // 		for (std::size_t j = 0; j < matrix[0].size(); j++) {
-// 			os << matrix[i][j];
+// 			float number = std::round(matrix[i][j] * 1000) / 1000;
+// 			if (number == 0)
+// 				number = 0;
+// 			std::string n = trail(number);
+// 			std::size_t d = length - n.length();
+// 			while (d--)
+// 				os << " ";
+// 			os << number;
 // 			if (j < matrix[0].size() - 1)
 // 				os << ",";
 // 		}
@@ -481,4 +454,69 @@ auto& operator<<(std::ostream& os, const Matrix<K>& matrix) {
 // 	}
 // 	return os;
 // };
+
+// template<typename K>
+// auto& operator<<(std::ostream& os, const Matrix<K>& matrix) {
+// 	std::size_t length = 0;
+// 	for (std::size_t i = 0; i < matrix.size(); i++) {
+// 		for (std::size_t j = 0; j < matrix[0].size(); j++) {
+// 			std::string n = trail(matrix[i][j]);
+// 			if (n.length() > length)
+// 				length = n.length();
+// 		}
+// 	}
+// 	os << "Matrix of shape " << matrix.shape() << std::endl;
+// 	for (std::size_t i = 0; i < matrix.size(); i++) {
+// 		os << '[';
+// 		for (std::size_t j = 0; j < matrix[0].size(); j++) {
+// 			float number = std::round(matrix[i][j] * 1000) / 1000;
+// 			if (number == 0)
+// 				number = 0;
+// 			std::string n = trail(number);
+// 			std::size_t d = length - n.length();
+// 			while (d--)
+// 				os << " ";
+// 			os << number;
+// 			if (j < matrix[0].size() - 1)
+// 				os << ",";
+// 		}
+// 		os << ']';
+// 		if (i < matrix.size() - 1)
+// 			os << '\n';
+// 	}
+// 	return os;
+// };
+template<typename K>
+auto& operator<<(std::ostream& os, const Matrix<K>& matrix) {
+	os << "Matrix of shape " << matrix.shape() << std::endl;
+	for (std::size_t i = 0; i < matrix.size(); i++) {
+		os << '[';
+		for (std::size_t j = 0; j < matrix[0].size(); j++) {
+			os << matrix[i][j];
+			if (j < matrix[0].size() - 1)
+				os << ", ";
+		}
+		os << ']';
+		if (i < matrix.size() - 1)
+			os << '\n';
+	}
+	return os;
+};
+
+template<typename K>
+auto& operator<<(std::ostream& os, Matrix<K>& matrix) {
+	os << "Matrix of shape " << matrix.shape() << std::endl;
+	for (std::size_t i = 0; i < matrix.size(); i++) {
+		os << '[';
+		for (std::size_t j = 0; j < matrix[0].size(); j++) {
+			os << matrix[i][j];
+			if (j < matrix[0].size() - 1)
+				os << ", ";
+		}
+		os << ']';
+		if (i < matrix.size() - 1)
+			os << '\n';
+	}
+	return os;
+};
 #endif

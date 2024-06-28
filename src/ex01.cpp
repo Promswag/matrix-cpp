@@ -4,7 +4,7 @@
 #include <iostream>
 
 int main() {
-	header("Exercice 01 - Linear Combination", BLUE);
+	header("Exercice 15 - Linear Combination", BLUE);
 	{
 		// TEST 01
 		std::cout << GREEN << "#### Test 01 ####" << std::endl;
@@ -15,7 +15,7 @@ int main() {
 			std::cout << CYAN << "v1: " << DEFAULT << v1 << std::endl;
 			std::cout << CYAN << "v2: " << DEFAULT << v2 << std::endl;
 			std::cout << CYAN << "v3: " << DEFAULT << v3 << std::endl;
-			std::cout << CYAN << "Operation: linear_combination<float, 3>({v1, v2, v3}, {10, -2, 0.5})" << std::endl;
+			std::cout << CYAN << "Operation: linear_combination({v1, v2, v3}, {10, -2, 0.5})" << std::endl;
 			std::cout << CYAN << "result: " << DEFAULT << linear_combination<float, 3>({v1, v2, v3}, {10, -2, 0.5}) << std::endl;
 		} catch (const std::exception &e) {
 			std::cout << RED << e.what() << std::endl;
@@ -28,7 +28,7 @@ int main() {
 		try {
 			auto v1 = Vector<float>::from({1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
 			std::cout << CYAN << "v1: " << DEFAULT << v1 << std::endl;
-			std::cout << CYAN << "Operation: linear_combination<float, 3>({v1, v1, v1}, {1, -10, 100})" << std::endl;
+			std::cout << CYAN << "Operation: linear_combination({v1, v1, v1}, {1, -10, 100})" << std::endl;
 			std::cout << CYAN << "result: " << DEFAULT << linear_combination<float, 3>({v1, v1, v1}, {1, -10, 100}) << std::endl;
 		} catch (const std::exception &e) {
 			std::cout << RED << e.what() << std::endl;

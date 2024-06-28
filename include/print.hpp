@@ -14,7 +14,7 @@
 #define COLOR(color, text) color << text
 #define ENDL std::cout << std::endl
 
-#define HEADER_LENGTH 80
+#define HEADER_LENGTH 76
 
 void header(const char* str, const char *color = DEFAULT) {
 	std::string title(str);

@@ -7,6 +7,7 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
+#include <complex>
 
 #include "print.hpp"
 
@@ -90,24 +91,37 @@ class Vector : public std::vector<K> {
 			}
 			return result;
 		}
+		auto dot(const Vector<K> & other) {
+			if (other.size() != this->size()) {
+				throw VectorException("Vectors are of different dimensions.");
+			}
+			K result(0);
+			for (std::size_t i = 0; i < this->size(); i++) {
+				result += (*this)[i] * other[i];
+			}
+			return result;
+		}
 		auto norm_1() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
-				r += ((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
+				r += std::abs((*this)[i]);
+				// r += ((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
 			}
 			return r;
-		}
+		}		
 		auto norm() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
-				r += (*this)[i] * (*this)[i];
+				r += std::norm((*this)[i]);
+				// r += (*this)[i] * (*this)[i];
 			}
-			return sqrt(r);
+			return pow(r, 0.5);
 		}
 		auto norm_inf() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
-				K c((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
+				float c = std::abs((*this)[i]);
+				// K c((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
 				r = r < c ? c : r;
 			}
 			return r;
@@ -174,7 +188,9 @@ auto& operator<<(std::ostream& os, Vector<K>& vector) {
 	os << "Vector of size " << vector.size() << " ";
 	os << "[";
 	for (std::size_t i = 0; i < vector.size(); i++) {
-		os << vector[i] << (i != vector.size() - 1 ? ", " : ""); 
+		os << vector[i];
+		if (i < vector.size() - 1)
+			os << ", "; 
 	}
 	os << "]";
 	return os;
@@ -185,7 +201,9 @@ auto& operator<<(std::ostream& os, const Vector<K>& vector) {
 	os << "Vector of size " << vector.size() << " ";
 	os << "[";
 	for (std::size_t i = 0; i < vector.size(); i++) {
-		os << vector[i] << (i != vector.size() - 1 ? ", " : ""); 
+		os << vector[i];
+		if (i < vector.size() - 1)
+			os << ", ";
 	}
 	os << "]";
 	return os;
