@@ -3,13 +3,13 @@
 
 #include <stdexcept>
 #include <iostream>
-#include <iomanip>
-#include <sstream>
 #include <vector>
 #include <cmath>
 #include <complex>
 
+#include "maths.hpp"
 #include "print.hpp"
+
 
 class VectorException : public std::exception {
 	public:
@@ -87,7 +87,7 @@ class Vector : public std::vector<K> {
 			}
 			K result(0);
 			for (std::size_t i = 0; i < this->size(); i++) {
-				result += (*this)[i] * other[i];
+				result += (*this)[i] * ::conjugate(other[i]);
 			}
 			return result;
 		}
@@ -97,31 +97,28 @@ class Vector : public std::vector<K> {
 			}
 			K result(0);
 			for (std::size_t i = 0; i < this->size(); i++) {
-				result += (*this)[i] * other[i];
+				result += (*this)[i] * ::conjugate(other[i]);
 			}
 			return result;
 		}
 		auto norm_1() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
-				r += std::abs((*this)[i]);
-				// r += ((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
+				r += ::abs((*this)[i]);
 			}
 			return r;
 		}		
 		auto norm() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
-				r += std::norm((*this)[i]);
-				// r += (*this)[i] * (*this)[i];
+				r += ::norm((*this)[i]);
 			}
 			return pow(r, 0.5);
 		}
 		auto norm_inf() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
-				float c = std::abs((*this)[i]);
-				// K c((*this)[i] < 0 ? -(*this)[i] : (*this)[i]);
+				float c = ::abs((*this)[i]);
 				r = r < c ? c : r;
 			}
 			return r;
@@ -170,15 +167,15 @@ class Vector : public std::vector<K> {
 				throw VectorException("Index out of bounds");
 		}
 		
-		auto asString() const {
-			std::stringstream os;
-			os << "[";
-			for (std::size_t i = 0; i < this->size(); i++) {
-				os << (*this)[i] << (i != this->size() - 1 ? "," : "");
-			}
-			os << "]";
-			return os.str();
-		}
+		// auto asString() const {
+		// 	std::stringstream os;
+		// 	os << "[";
+		// 	for (std::size_t i = 0; i < this->size(); i++) {
+		// 		os << (*this)[i] << (i != this->size() - 1 ? "," : "");
+		// 	}
+		// 	os << "]";
+		// 	return os.str();
+		// }
 
 	private:
 };

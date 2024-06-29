@@ -1,5 +1,5 @@
 #include "matrix.hpp"
-#include "maths.hpp"
+#include "lalgebra.hpp"
 #include "print.hpp"
 #include <iostream>
 
@@ -71,6 +71,21 @@ int main() {
 		try {
 			auto v1 = Vector<float>::from({1, 2, 3});
 			auto v2 = Vector<float>::from({4, 5, 6});
+			std::cout << CYAN << "v1: " << DEFAULT << v1 << std::endl;
+			std::cout << CYAN << "v2: " << DEFAULT << v2 << std::endl;
+			std::cout << CYAN << "Operation: angle_cos(v1, v2)" << std::endl;
+			std::cout << CYAN << "result: " << DEFAULT << angle_cos(v1, v2) << std::endl;
+		} catch (const std::exception &e) {
+			std::cout << RED << e.what() << std::endl;
+		}
+		std::cout << std::endl;
+	}
+	{
+		// TEST 06
+		std::cout << GREEN << "#### Test 06 ####" << std::endl;
+		try {
+			auto v1 = Vector<int>::from({0, 0});
+			auto v2 = Vector<int>::from({0, 0});
 			std::cout << CYAN << "v1: " << DEFAULT << v1 << std::endl;
 			std::cout << CYAN << "v2: " << DEFAULT << v2 << std::endl;
 			std::cout << CYAN << "Operation: angle_cos(v1, v2)" << std::endl;

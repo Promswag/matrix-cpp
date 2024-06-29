@@ -1,5 +1,5 @@
 #include "matrix.hpp"
-#include "maths.hpp"
+#include "lalgebra.hpp"
 #include "print.hpp"
 #include <iostream>
 

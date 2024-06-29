@@ -16,6 +16,9 @@
 
 #define HEADER_LENGTH 76
 
+#include <iostream>
+#include <iomanip>
+
 void header(const char* str, const char *color = DEFAULT) {
 	std::string title(str);
 	std::size_t length = HEADER_LENGTH;
