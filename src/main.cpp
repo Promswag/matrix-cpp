@@ -8,7 +8,6 @@
 #define COMPLEX_DOUBLE std::complex<double>
 
 int main() {
-	
 	auto start = std::chrono::system_clock::now();
 	{
 		//

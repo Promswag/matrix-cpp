@@ -79,7 +79,7 @@ class Vector : public std::vector<K> {
 			for (std::size_t i = 0; i < this->size(); i++) {
 				(*this)[i] *= k;
 			}
-			return *this; 
+			return *this;
 		}
 		auto dot(Vector<K> & other) {
 			if (other.size() != this->size()) {
@@ -107,7 +107,7 @@ class Vector : public std::vector<K> {
 				r += ::abs((*this)[i]);
 			}
 			return r;
-		}		
+		}
 		auto norm() {
 			float r = 0;
 			for (std::size_t i = 0; i < this->size(); i++) {
@@ -166,18 +166,6 @@ class Vector : public std::vector<K> {
 			else
 				throw VectorException("Index out of bounds");
 		}
-		
-		// auto asString() const {
-		// 	std::stringstream os;
-		// 	os << "[";
-		// 	for (std::size_t i = 0; i < this->size(); i++) {
-		// 		os << (*this)[i] << (i != this->size() - 1 ? "," : "");
-		// 	}
-		// 	os << "]";
-		// 	return os.str();
-		// }
-
-	private:
 };
 
 template<typename K>
@@ -187,7 +175,7 @@ auto& operator<<(std::ostream& os, Vector<K>& vector) {
 	for (std::size_t i = 0; i < vector.size(); i++) {
 		os << vector[i];
 		if (i < vector.size() - 1)
-			os << ", "; 
+			os << ", ";
 	}
 	os << "]";
 	return os;

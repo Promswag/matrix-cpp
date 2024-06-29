@@ -34,38 +34,18 @@ class MatrixException : public std::exception {
 template<typename K, typename = std::enable_if_t<std::is_arithmetic<K>::value || std::is_same<K, std::complex<double>>::value>>
 class Matrix {
 	public:
-		Matrix(const Matrix & other) : 
+		Matrix(const Matrix & other) :
 			_matrix(other._matrix),
 			_shape(other._shape) {
 		}
-		// Matrix(Matrix & other) : 
-		// 	_matrix(other._matrix),
-		// 	_shape(other._shape) {
-		// }
 		Matrix(const Vector<Vector<K>> & matrix) : _matrix(matrix) {
 			_shape = "(" + std::to_string(matrix.size()) + ", " + std::to_string(matrix[0].size()) + ")";
 		}
-		// Matrix(Vector<Vector<K>> & matrix) : _matrix(matrix) {
-		// 	_shape = "(" + std::to_string(matrix.size()) + ", " + std::to_string(matrix[0].size()) + ")";
-		// }
 		auto operator=(Matrix<K> & other) {
 			_matrix = other._matrix;
 			_shape = other._shape;
 		}
 
-		// template<std::size_t N, std::size_t M>
-		// static auto from(const K (&array)[N][M]) {
-		// 	Vector<Vector<K>> matrix(N);
-		// 	for (std::size_t i = 0; i < N; i++) {
-		// 		Vector<K> vector(M);
-		// 		for (std::size_t j = 0; j < M; j++) {
-		// 			vector[j] = array[i][j];
-		// 		}
-		// 		matrix[i] = vector;
-		// 	}
-		// 	return Matrix(matrix);
-		// }		
-		
 		template<std::size_t N, std::size_t M>
 		static auto from(const K (&array)[N][M]) {
 			Vector<Vector<K>> matrix(N, Vector<K>(M, K(0)));
@@ -76,7 +56,7 @@ class Matrix {
 			}
 			return Matrix(matrix);
 		}
-		
+
 		static auto identity(std::size_t N) {
 			Vector<Vector<K>> matrix(N, Vector<K>(N, K(0)));
 			for (std::size_t i = 0; i < matrix.size(); i++) {
@@ -261,7 +241,6 @@ class Matrix {
 							Vector<K> tmp = origin[pivot_row];
 							origin[pivot_row] = origin[row];
 							origin[row] = tmp;
-							
 							tmp = result[pivot_row];
 							result[pivot_row] = result[row];
 							result[row] = tmp;
@@ -272,8 +251,8 @@ class Matrix {
 							if (inner == pivot_row) {
 								continue;
 							}
-							result[inner] -= result[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);	
-							origin[inner] -= origin[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);	
+							result[inner] -= result[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);
+							origin[inner] -= origin[pivot_row] * (origin[inner][col] / origin[pivot_row][col]);
 						}
 						pivot_row++;
 						break;
@@ -298,7 +277,7 @@ class Matrix {
 							if (inner == pivot_row) {
 								continue;
 							}
-							result[inner] -= result[pivot_row] * (result[inner][col] / result[pivot_row][col]);	
+							result[inner] -= result[pivot_row] * (result[inner][col] / result[pivot_row][col]);
 						}
 						pivot_row++;
 						break;
@@ -334,7 +313,7 @@ class Matrix {
 		}
 		auto operator*(K k) const {
 			return Matrix(*this).scl(k);
-		}		
+		}
 		auto & operator*=(K k) {
 			return scl(k);
 		}
@@ -360,14 +339,7 @@ class Matrix {
 		auto isSquare() const {
 			return _matrix.size() == _matrix[0].size();
 		}
-		auto print() const {
-			for (std::size_t i = 0; i < this->size(); i++) {
-				for (std::size_t j = 0; j < (*this)[0].size(); j++) {
-					std::cout << (*this)[i][j] << (j < (*this)[0].size() - 1 ? ", " : "");
-				}
-				std::cout << std::endl;
-			}
-		}
+
 		std::string asString() const {
 			std::string result = "";
 			for (std::size_t i = 0; i < this->size(); i++) {
@@ -382,7 +354,7 @@ class Matrix {
 
 	private:
 		Matrix() {}
-		
+
 		Vector<Vector<K>> _matrix;
 		std::string _shape;
 };
