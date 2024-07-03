@@ -4,7 +4,7 @@
 #include <iostream>
 
 int main() {
-	header("Exercice 15 - Linear Combination", BLUE);
+	header("Exercice 01 - Linear Combination", BLUE);
 	{
 		// TEST 01
 		std::cout << GREEN << "#### Test 01 ####" << std::endl;

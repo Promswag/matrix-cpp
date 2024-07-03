@@ -59,13 +59,13 @@ int main() {
 		try {
 			auto v1 = Vector<COMPLEX_DOUBLE>::from({COMPLEX_DOUBLE(1, 0), COMPLEX_DOUBLE(0, 1)});
 			auto v2 = Vector<COMPLEX_DOUBLE>::from({COMPLEX_DOUBLE(-1, -1), COMPLEX_DOUBLE(-1, -1)});
-			auto v3 = Vector<COMPLEX_DOUBLE>::from({COMPLEX_DOUBLE(5, -5), COMPLEX_DOUBLE(5, -5)});	
+			auto v3 = Vector<COMPLEX_DOUBLE>::from({COMPLEX_DOUBLE(5, -5), COMPLEX_DOUBLE(5, -5)});
 			std::cout << CYAN << "v1: " << DEFAULT << v1 << std::endl;
 			std::cout << CYAN << "v2: " << DEFAULT << v2 << std::endl;
 			std::cout << CYAN << "v3: " << DEFAULT << v3 << std::endl;
 			std::cout << CYAN << "Operation: linear_combination({v1, v2, v3}, {10, -2, 0.5})" << std::endl;
 			std::cout << CYAN << "result: " << DEFAULT << linear_combination<COMPLEX_DOUBLE, 3>(
-				{v1, v2, v3}, 
+				{v1, v2, v3},
 				{10, -2, 0.5}) << std::endl;
 		} catch (const std::exception &e) {
 			std::cout << RED << e.what() << std::endl;
@@ -77,20 +77,20 @@ int main() {
 		std::cout << GREEN << "#### Test 02 ####" << std::endl;
 		try {
 			auto v1 = Vector<COMPLEX_DOUBLE>::from({
-				COMPLEX_DOUBLE(1, 1), 
-				COMPLEX_DOUBLE(2, 2), 
-				COMPLEX_DOUBLE(3, 3), 
-				COMPLEX_DOUBLE(4, 4), 
-				COMPLEX_DOUBLE(5, 5), 
-				COMPLEX_DOUBLE(6, 6), 
-				COMPLEX_DOUBLE(7, 7), 
-				COMPLEX_DOUBLE(8, 8), 
-				COMPLEX_DOUBLE(9, 9), 
+				COMPLEX_DOUBLE(1, 1),
+				COMPLEX_DOUBLE(2, 2),
+				COMPLEX_DOUBLE(3, 3),
+				COMPLEX_DOUBLE(4, 4),
+				COMPLEX_DOUBLE(5, 5),
+				COMPLEX_DOUBLE(6, 6),
+				COMPLEX_DOUBLE(7, 7),
+				COMPLEX_DOUBLE(8, 8),
+				COMPLEX_DOUBLE(9, 9),
 				COMPLEX_DOUBLE(10, 10)});
 			std::cout << CYAN << "v1: " << DEFAULT << v1 << std::endl;
 			std::cout << CYAN << "Operation: linear_combination({v1, v1, v1}, {(1, -1), (-10, 10), (100, -100)})" << std::endl;
 			std::cout << CYAN << "result: " << DEFAULT << linear_combination<COMPLEX_DOUBLE, 3>(
-				{v1, v1, v1}, 
+				{v1, v1, v1},
 				{COMPLEX_DOUBLE(1, -1), COMPLEX_DOUBLE(-10, 10), COMPLEX_DOUBLE(100, -100)}) << std::endl;
 		} catch (const std::exception &e) {
 			std::cout << RED << e.what() << std::endl;
@@ -240,10 +240,10 @@ int main() {
 			auto m1 = Matrix<COMPLEX_DOUBLE>::from({
 				{COMPLEX_DOUBLE(1,10),
 				 COMPLEX_DOUBLE(2,20),
-				 COMPLEX_DOUBLE(3,30)}, 
+				 COMPLEX_DOUBLE(3,30)},
 				{COMPLEX_DOUBLE(4,40),
 				 COMPLEX_DOUBLE(5,50),
-				 COMPLEX_DOUBLE(6,60)}, 
+				 COMPLEX_DOUBLE(6,60)},
 				{COMPLEX_DOUBLE(7,70),
 				 COMPLEX_DOUBLE(8,80),
 				 COMPLEX_DOUBLE(9,90)}});
@@ -277,10 +277,10 @@ int main() {
 			auto m1 = Matrix<COMPLEX_DOUBLE>::from({
 				{COMPLEX_DOUBLE(5, 5),
 				 COMPLEX_DOUBLE(1, 3),
-				 COMPLEX_DOUBLE(0, 7)}, 
+				 COMPLEX_DOUBLE(0, 7)},
 				{COMPLEX_DOUBLE(7, 3),
 				 COMPLEX_DOUBLE(9, 1),
-				 COMPLEX_DOUBLE(1, 1)}, 
+				 COMPLEX_DOUBLE(1, 1)},
 				{COMPLEX_DOUBLE(0, 8),
 				 COMPLEX_DOUBLE(0, 0),
 				 COMPLEX_DOUBLE(4, 3)}});
@@ -313,14 +313,14 @@ int main() {
 		std::cout << GREEN << "#### Test 02 ####" << std::endl;
 		try {
 			auto m1 = Matrix<COMPLEX_DOUBLE>::from({
-				{COMPLEX_DOUBLE(1, 2), 
-				 COMPLEX_DOUBLE(1, -5), 
-				 COMPLEX_DOUBLE(1, -1)}, 
-				{COMPLEX_DOUBLE(1, 1), 
-				 COMPLEX_DOUBLE(7, -1), 
-				 COMPLEX_DOUBLE(1, -1)}, 
-				{COMPLEX_DOUBLE(2, 8), 
-				 COMPLEX_DOUBLE(3, 3), 
+				{COMPLEX_DOUBLE(1, 2),
+				 COMPLEX_DOUBLE(1, -5),
+				 COMPLEX_DOUBLE(1, -1)},
+				{COMPLEX_DOUBLE(1, 1),
+				 COMPLEX_DOUBLE(7, -1),
+				 COMPLEX_DOUBLE(1, -1)},
+				{COMPLEX_DOUBLE(2, 8),
+				 COMPLEX_DOUBLE(3, 3),
 				 COMPLEX_DOUBLE(3, 3)}});
 			std::cout << CYAN << "m1: " << DEFAULT << m1 << std::endl;
 			std::cout << CYAN << "Operation: m1.determinant()" << std::endl;
@@ -336,14 +336,14 @@ int main() {
 		std::cout << GREEN << "#### Test 01 ####" << std::endl;
 		try {
 			auto m1 = Matrix<COMPLEX_DOUBLE>::from({
-				{COMPLEX_DOUBLE(8, 8), 
-				 COMPLEX_DOUBLE(5, 5), 
-				 COMPLEX_DOUBLE(-2, -2)}, 
-				{COMPLEX_DOUBLE(4, 4), 
-				 COMPLEX_DOUBLE(7, 7), 
-				 COMPLEX_DOUBLE(20, 20)}, 
-				{COMPLEX_DOUBLE(7, 7), 
-				 COMPLEX_DOUBLE(6, 6), 
+				{COMPLEX_DOUBLE(8, 8),
+				 COMPLEX_DOUBLE(5, 5),
+				 COMPLEX_DOUBLE(-2, -2)},
+				{COMPLEX_DOUBLE(4, 4),
+				 COMPLEX_DOUBLE(7, 7),
+				 COMPLEX_DOUBLE(20, 20)},
+				{COMPLEX_DOUBLE(7, 7),
+				 COMPLEX_DOUBLE(6, 6),
 				 COMPLEX_DOUBLE(1, 1)}});
 			std::cout << CYAN << "m1: " << DEFAULT << m1 << std::endl;
 			std::cout << CYAN << "Operation: m1.inverse()" << std::endl;
@@ -359,14 +359,14 @@ int main() {
 		std::cout << GREEN << "#### Test 01 ####" << std::endl;
 		try {
 			auto m1 = Matrix<COMPLEX_DOUBLE>::from({
-				{COMPLEX_DOUBLE(1, 0), 
-				 COMPLEX_DOUBLE(0, 0), 
-				 COMPLEX_DOUBLE(0, 0)}, 
-				{COMPLEX_DOUBLE(0, 0), 
-				 COMPLEX_DOUBLE(1, 0), 
-				 COMPLEX_DOUBLE(0, 0)}, 
-				{COMPLEX_DOUBLE(0, 0), 
-				 COMPLEX_DOUBLE(0, 0), 
+				{COMPLEX_DOUBLE(1, 0),
+				 COMPLEX_DOUBLE(0, 0),
+				 COMPLEX_DOUBLE(0, 0)},
+				{COMPLEX_DOUBLE(0, 0),
+				 COMPLEX_DOUBLE(1, 0),
+				 COMPLEX_DOUBLE(0, 0)},
+				{COMPLEX_DOUBLE(0, 0),
+				 COMPLEX_DOUBLE(0, 0),
 				 COMPLEX_DOUBLE(1, 0)}});
 			std::cout << CYAN << "m1: " << DEFAULT << m1 << std::endl;
 			std::cout << CYAN << "Operation: m1.rank()" << std::endl;
@@ -381,15 +381,15 @@ int main() {
 		std::cout << GREEN << "#### Test 02 ####" << std::endl;
 		try {
 			auto m1 = Matrix<COMPLEX_DOUBLE>::from({
-				{COMPLEX_DOUBLE(1, 5), 
+				{COMPLEX_DOUBLE(1, 5),
 				 COMPLEX_DOUBLE(3, 9),
 				 COMPLEX_DOUBLE(7, 3),
-				 COMPLEX_DOUBLE(9, 3)}, 
-				{COMPLEX_DOUBLE(2, 3), 
+				 COMPLEX_DOUBLE(9, 3)},
+				{COMPLEX_DOUBLE(2, 3),
 				 COMPLEX_DOUBLE(1, 0),
 				 COMPLEX_DOUBLE(0, 2),
-				 COMPLEX_DOUBLE(3, 4)}, 
-				{COMPLEX_DOUBLE(4, 6), 
+				 COMPLEX_DOUBLE(3, 4)},
+				{COMPLEX_DOUBLE(4, 6),
 				 COMPLEX_DOUBLE(2, 0),
 				 COMPLEX_DOUBLE(0, 4),
 				 COMPLEX_DOUBLE(6, 8)}});
@@ -406,9 +406,9 @@ int main() {
 		std::cout << GREEN << "#### Test 03 ####" << std::endl;
 		try {
 			auto m1 = Matrix<COMPLEX_DOUBLE>::from({
-				{8, 5, -2}, 
-				{4, 7, 20}, 
-				{7, 6, 1}, 
+				{8, 5, -2},
+				{4, 7, 20},
+				{7, 6, 1},
 				{21, 18, 7}});
 			std::cout << CYAN << "m1: " << DEFAULT << m1 << std::endl;
 			std::cout << CYAN << "Operation: m1.rank()" << std::endl;

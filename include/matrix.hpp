@@ -4,18 +4,18 @@
 #include "vector.hpp"
 
 template<typename K>
-auto dust_checker(K k) {
-	return ::abs(k) < K(1e-3);
+auto dust_checker(K k, double magnitude) {
+	return ::abs(k) < K(magnitude);
 }
 
 template<typename K>
-auto dust_checker(std::complex<K> & k) {
-	return ::abs(k.real()) < K(1e-3) && ::abs(k.imag() < K(1e-3));
+auto dust_checker(std::complex<K> & k, double magnitude) {
+	return ::abs(k.real()) < K(magnitude) && ::abs(k.imag() < K(magnitude));
 }
 
 template<typename K>
-auto dust_checker(const std::complex<K> & k) {
-	return ::abs(k.real()) < K(1e-3) && ::abs(k.imag() < K(1e-3));
+auto dust_checker(const std::complex<K> & k, double magnitude) {
+	return ::abs(k.real()) < K(magnitude) && ::abs(k.imag() < K(magnitude));
 }
 
 class MatrixException : public std::exception {
@@ -31,7 +31,7 @@ class MatrixException : public std::exception {
 		std::string message;
 };
 
-template<typename K, typename = std::enable_if_t<std::is_arithmetic<K>::value || std::is_same<K, std::complex<double>>::value>>
+template<typename K>
 class Matrix {
 	public:
 		Matrix(const Matrix & other) :
@@ -266,7 +266,7 @@ class Matrix {
 			std::size_t pivot_row = 0;
 			for (std::size_t col = 0; col < result[0].size(); col++) {
 				for (std::size_t row = pivot_row; row < result.size(); row++) {
-					if (result[row][col] != K(0) && ::dust_checker(result[row][col]) == false) {
+					if (result[row][col] != K(0) && ::dust_checker(result[row][col], 1e-6) == false) {
 						if (row != pivot_row) {
 							Vector<K> tmp = result[pivot_row];
 							result[pivot_row] = result[row];

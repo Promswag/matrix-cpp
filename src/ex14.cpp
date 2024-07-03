@@ -13,9 +13,14 @@ int main() {
 			Matrix<float> proj = projection(90., 1., 0.1, 100.00);
 			std::ofstream proj_file;
 			proj_file.open("matrix_display/proj");
-			proj_file << proj.asString();
+			if (proj_file.is_open()) {
+				proj_file << proj.asString();
+				std::cout << "Projection matrix saved in matrix_display/proj" << std::endl;
+			}
+			else {
+				std::cerr << RED << "Could not open matrix_display/proj" << DEFAULT << std::endl;
+			}
 			proj_file.close();
-			std::cout << "Projection matrix saved in matrix_display/proj" << std::endl;
 		} catch (const std::exception &e) {
 			std::cout << RED << e.what() << std::endl;
 		}
