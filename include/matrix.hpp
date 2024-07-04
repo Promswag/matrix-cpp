@@ -231,6 +231,9 @@ class Matrix {
 			if (!this->isSquare()) {
 				throw MatrixException("Inverse: Matrix is not square");
 			}
+			if (this->determinant() == K(0)) {
+				throw MatrixException("Inverse: Matrix is not invertible");
+			}
 			Matrix origin(*this);
 			Matrix result = Matrix::identity(this->size());
 			std::size_t pivot_row = 0;
